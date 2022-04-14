@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout>
+	<product_adminhtml_product_index>
+		<reference name="content">
+			<block type="product/adminhtml_product_index" name="productIndex"/>
+		</reference>
+	</product_adminhtml_product_index>
+	<product_adminhtml_product_edit>
+		<reference name="content">
+			<block type="product/adminhtml_product_edit" name="productEdit"/>
+		</reference>
+	</product_adminhtml_product_edit>
+</layout>
