@@ -10,12 +10,6 @@ class Nv_Product_Block_Adminhtml_Product_Edit_Tab_Form extends Mage_Adminhtml_Bl
 
       $id = $this->getRequest()->getParam('id');
       $model = Mage::getModel('product/product')->load($id);
-      $fieldset->addField('productId', 'text', array(
-          'label'     => Mage::helper('product')->__('Id'),
-          'readonly' => true,
-          'name'      => 'productId',
-          'value' => $model->getData('productId'),
-      ));
       $fieldset->addField('name', 'text', array(
           'label'     => Mage::helper('product')->__('Name'),          
           'name'      => 'name',
