@@ -3,7 +3,7 @@ class Nv_Category_Model_Resource_Category extends Mage_Core_Model_Resource_Db_Ab
 {   
     protected function _construct()
     {      
-        $this->_init('category/category','categoryId');
+        $this->_init('category/category','category_id');
     }
 
 }

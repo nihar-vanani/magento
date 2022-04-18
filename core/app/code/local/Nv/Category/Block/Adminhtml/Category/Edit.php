@@ -5,7 +5,7 @@ class Nv_Category_Block_Adminhtml_Category_Edit extends Mage_Adminhtml_Block_Wid
 	public function __construct()
     {
 
-        $this->_objectId = 'categoryId';
+        $this->_objectId = 'category_id';
         $this->_blockGroup = 'category';
         $this->_controller = 'adminhtml_category';
 

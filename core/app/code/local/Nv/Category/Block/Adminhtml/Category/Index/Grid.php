@@ -6,7 +6,7 @@ class Nv_Category_Block_Adminhtml_Category_Index_Grid extends Mage_Adminhtml_Blo
 	{
 		parent::__construct();
 		$this->setId('categoryGrid');
-		$this->setDefaultSort('categoryId');
+		$this->setDefaultSort('category_id');
 		$this->setUseAjax(true);
 		$this->setSaveParametersInSession(true);
 	}
@@ -14,24 +14,28 @@ class Nv_Category_Block_Adminhtml_Category_Index_Grid extends Mage_Adminhtml_Blo
 	protected function _prepareCollection()
 	{
 	  $collection = Mage::getModel('category/category')->getCollection();
+	  foreach ($collection->getItems() as $col)
+        {
+            $col->path = $col->getPath();
+        }
 	  $this->setCollection($collection);
 	  return parent::_prepareCollection();
 	}
 
 	protected function _prepareColumns()
 	{
-		$this->addColumn('categoryId', array(
+		$this->addColumn('category_id', array(
 		  'header'    => Mage::helper('category')->__('ID'),
 		  'align'     =>'right',
 		  'width'     => '50px',
-		  'index'     => 'categoryId',
+		  'index'     => 'category_id',
 		)); 
 
-		$this->addColumn('parentId', array(
+		$this->addColumn('parent_id', array(
 		  'header'    => Mage::helper('category')->__('Parent ID'),
 		  'align'     =>'right',
 		  'width'     => '50px',
-		  'index'     => 'parentId',
+		  'index'     => 'parent_id',
 		));  
 
 		$this->addColumn('name', array(
@@ -60,18 +64,18 @@ class Nv_Category_Block_Adminhtml_Category_Index_Grid extends Mage_Adminhtml_Blo
                             ),
       ));    
 
-		$this->addColumn('createdAt', array(
+		$this->addColumn('created_at', array(
 		  'header'    => Mage::helper('category')->__('CreatedAt'),
 		  'align'     =>'right',
 		  'width'     => '50px',
-		  'index'     => 'createdAt',
+		  'index'     => 'created_at',
 		));
 
-		$this->addColumn('updatedAt', array(
+		$this->addColumn('updated_at', array(
 		  'header'    => Mage::helper('category')->__('UpdatedAt'),
 		  'align'     =>'right',
 		  'width'     => '50px',
-		  'index'     => 'updatedAt',
+		  'index'     => 'updated_at',
 		));
 
 		$this->addColumn('action',
@@ -98,7 +102,7 @@ class Nv_Category_Block_Adminhtml_Category_Index_Grid extends Mage_Adminhtml_Blo
 
     protected function _prepareMassaction()
     {
-        $this->setMassactionIdField('categoryId');
+        $this->setMassactionIdField('category_id');
         $this->getMassactionBlock()->setFormFieldName('category');
 
         $this->getMassactionBlock()->addItem('delete', array(

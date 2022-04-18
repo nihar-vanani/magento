@@ -67,40 +67,91 @@ class Nv_Category_Adminhtml_CategoryController extends Mage_Adminhtml_Controller
 
     public function saveAction() 
     {   
-        try
+        try 
         {
-            if (!$this->getRequest()->getPost())
-            {   
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Invalid request.'));   
+            if (!$this->getRequest()->getPost()) 
+            {
+                throw new Exception("Invalid request.", 1);
             }
-                
-            $id= ($this->getRequest()->getParam('id'));
-            $model = Mage::getModel('category/category')->load($id);
-            $model->setData('parentId',$this->getRequest()->getPost('parentId'));
-            $model->setData('name',$this->getRequest()->getPost ('name'));
-            $model->setData('path',$this->getRequest()->getPost('path'));
-            $model->setData('status',$this->getRequest()->getPost('status'));
-            if($id){
-                $model->setData('updatedAt', Mage::getModel('core/date')->date('Y-m-d H:i:s'));
+            $path = '';
+            $postData = $this->getRequest()->getPost();
+            unset($postData['form_key']);
+            $categoryRow = Mage::getModel('category/category');
+            $adapter = $categoryRow->getResource()->getReadConnection();
+            $id = $this->getRequest()->getParam('id');
+            if($id)
+            {
+                $categoryPath = $adapter->fetchOne("SELECT `path` FROM `category` WHERE `category_id` = {$id}");
+                $categoryRow->setData($postData);
+                if ($categoryRow->parent_id == 0) 
+                {
+                    $categoryRow->parent_id = 0;
+                }
+                $categoryRow->category_id = $id;
+                $categoryRow->updated_at = date('Y-m-d H:i:s');
+                $category = $categoryRow->save();
+                $this->saveCategory($category->category_id);
+                $query= $categoryRow->getCollection()->getSelect()->where("`path` LIKE '".$categoryPath.'/%'."'")->order('path');
+                $subcategories = $adapter->fetchAll($query);
+                foreach ($subcategories as $row) 
+                {
+                    $query= $categoryRow->getCollection()->getSelect()->where("`category_id` = {$row['parent_id']}")->order('path');
+                    $parent = $adapter->fetchRow($query);
+                    $newPath = $parent['path'].'/'.$row['category_id'];
+                    $row['path'] = $newPath;
+                    $row['updated_at'] = date('Y-m-d H:i:s');
+                    
+                    Mage::getModel('category/category')->setData($row)->save();
+                }
             }
-            else{
-                $model->setData('createdAt', Mage::getModel('core/date')->date('Y-m-d H:i:s'));
+            else
+            {
+                $categoryRow->setData($postData);
+                $categoryRow->created_at = date('Y-m-d H:i:s');
+                $category = $categoryRow->save();
+                if(!$category)
+                {
+                    throw new Exception("System is unable to insert.", 1);          
+                }
+                $this->saveCategory($category->getId());
             }
-            
-            $model->save();
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('category')->__('category saved successfully.'));
-        }
-        catch (Exception $e)
+            $this->_redirect('*/*/');
+        } 
+        catch (Exception $e) 
         {
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            $this->_redirect('*/*/');
         }
-        $this->_redirect('category/adminhtml_category/index');
+    }
+
+    protected function saveCategory($id)
+    {
+        $categoryRow = Mage::getModel('category/category');
+        $category = $categoryRow->load($id);
+        $category_id = $category->getId();
+        if ($category->getData('parent_id') == 0) 
+        {
+            $path = $category->getId();
+        }
+        else
+        {
+            $result=$categoryRow->load($category->parent_id);
+            $path = $result->path.'/'.$category_id;
+        }
+        $category=$categoryRow->load($category_id);
+        $category->path = $path;
+        
+        $update = $category->save();
+        if(!$update)
+        {
+            throw new Exception("System is unable to update.", 1);
+        }
+        
     }
 
     public function massDeleteAction() 
     {
-        $categoryIds = $this->getRequest()->getParam('category');
-        if(!is_array($categoryIds))
+        $category_ids = $this->getRequest()->getParam('category');
+        if(!is_array($category_ids))
         {
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select items.'));
         } 
@@ -108,13 +159,13 @@ class Nv_Category_Adminhtml_CategoryController extends Mage_Adminhtml_Controller
         {
             try
             {
-                foreach ($categoryIds as $categoryId)
+                foreach ($category_ids as $category_id)
                 {
-                    $category = Mage::getModel('category/category')->load($categoryId);
+                    $category = Mage::getModel('category/category')->load($category_id);
                     $category->delete();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                Mage::helper('adminhtml')->__('Total of %d record(s) were successfully deleted.', count($categoryIds)));
+                Mage::helper('adminhtml')->__('Total of %d record(s) were successfully deleted.', count($category_ids)));
             } 
             catch (Exception $e)
             {
