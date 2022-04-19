@@ -91,6 +91,7 @@ class Nv_Product_Adminhtml_ProductController extends Mage_Adminhtml_Controller_A
             
             $model->save();
             Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('product')->__('product saved successfully.'));
+            Mage::dispatchEvent('product_save_etc', array('product' => $model));
         }
         catch (Exception $e)
         {

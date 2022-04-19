@@ -18,6 +18,11 @@ class Nv_Product_Block_Adminhtml_Product_Edit_Tabs extends Mage_Adminhtml_Block_
           'content'   => $this->getLayout()->createBlock('product/adminhtml_product_edit_tab_form')->toHtml(),
       ));
 
+      $this->addTab('form_section2', array(
+          'label'     => Mage::helper('product')->__('Media Information'),         
+          'content'   => $this->getLayout()->createBlock('product/adminhtml_product_edit_tab_form')->toHtml(),
+      ));
+
       return parent::_beforeToHtml();
   }
 

@@ -1,3 +1,6 @@
 2022-04-13T02:36:11+00:00 ERR (3): Warning: simplexml_load_string(): Entity: line 110: parser error : Start tag expected, '&lt;' not found  in N:\xampp\htdocs\Magento\core\lib\Varien\Simplexml\Config.php on line 510
 2022-04-13T02:36:11+00:00 ERR (3): Warning: simplexml_load_string():  --&gt;  in N:\xampp\htdocs\Magento\core\lib\Varien\Simplexml\Config.php on line 510
 2022-04-13T02:36:11+00:00 ERR (3): Warning: simplexml_load_string():     ^  in N:\xampp\htdocs\Magento\core\lib\Varien\Simplexml\Config.php on line 510
+2022-04-19T02:40:48+00:00 ERR (3): Warning: simplexml_load_string(): Entity: line 77: parser error : Opening and ending tag mismatch: catalog_product line 77 and product  in N:\xampp\htdocs\Magento\core\lib\Varien\Simplexml\Config.php on line 510
+2022-04-19T02:40:48+00:00 ERR (3): Warning: simplexml_load_string():                     &lt;catalog_product&gt;Nv_Product_Model_Catalog_Product&lt;/product&gt;  in N:\xampp\htdocs\Magento\core\lib\Varien\Simplexml\Config.php on line 510
+2022-04-19T02:40:48+00:00 ERR (3): Warning: simplexml_load_string():                                                                                ^  in N:\xampp\htdocs\Magento\core\lib\Varien\Simplexml\Config.php on line 510
