@@ -10,28 +10,32 @@ class Nv_Vendor_Block_Adminhtml_Vendor_Edit_Tab_Form extends Mage_Adminhtml_Bloc
 
       $id = $this->getRequest()->getParam('id');
       $model = Mage::getModel('vendor/vendor')->load($id);
-      $fieldset->addField('vendorId', 'text', array(
-          'label'     => Mage::helper('vendor')->__('Id'),
-          'readonly' => true,
-          'name'      => 'vendorId',
-          'value' => $model->getData('vendorId'),
-      ));
-      $fieldset->addField('firstName', 'text', array(
+      $fieldset->addField('first_name', 'text', array(
           'label'     => Mage::helper('vendor')->__('First Name'),          
-          'name'      => 'firstname',
-          'value' => $model->getData('firstName'),
+          'name'      => 'first_name',
+          'value' => $model->getData('first_name'),
       ));
-      $fieldset->addField('lastName', 'text', array(
+      $fieldset->addField('last_name', 'text', array(
           'label'     => Mage::helper('vendor')->__('Last Name'),          
-          'name'      => 'lastname',
-          'value' => $model->getData('lastName'),
+          'name'      => 'last_name',
+          'value' => $model->getData('last_name'),
       ));        
       $fieldset->addField('email', 'text', array(
           'label'     => Mage::helper('vendor')->__('email'),          
           'name'      => 'email',
           'value' => $model->getData('email'),
       ));
+      $fieldset->addField('mobile', 'text', array(
+          'label'     => Mage::helper('vendor')->__('Mobile'),          
+          'name'      => 'mobile',
+          'value' => $model->getData('mobile'),
+      ));
+      $fieldset->addField('status', 'select', array(
+          'label'     => Mage::helper('vendor')->__('Status'),          
+          'name'      => 'status',
+          'values' => array('1'=>'Enable','2' => 'Disable'),
 
+      ));
       if ( Mage::registry('vendor_data') ) {
           $form->setValues(Mage::registry('vendor_data')->getData());
       }

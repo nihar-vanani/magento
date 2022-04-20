@@ -2,49 +2,11 @@
 
 class Nv_Vendor_Adminhtml_VendorController extends Mage_Adminhtml_Controller_Action
 {
-
-    protected function _initEdit()
-    {
-        $this->_title($this->__('Vendors'))->_title($this->__('Vendor Edit'));
-
-        Mage::register('current_edit', Mage::getModel('vendor/vendor'));
-        $vendorId = $this->getRequest()->getParam('id');
-        if (!is_null($vendorId)) {
-            Mage::registry('current_edit')->load($vendorId);
-        }
-
-    }
-
     public function indexAction()
     {
-        
         $this->_title($this->__('Vendor'))->_title($this->__('Manage Vendor'));
         $this->loadLayout();
         $this->_setActiveMenu('vendor/vendor');
-        $this->renderLayout();
-
-    }
-
-    public function newsAction()
-    {
-        $this->_initEdit();
-        $this->loadLayout();
-        $this->_setActiveMenu('vendor/vendor');
-        $this->_addBreadcrumb(Mage::helper('vendor')->__('Vendors'), Mage::helper('vendor')->__('Vendors'));
-        $this->_addBreadcrumb(Mage::helper('vendor')->__('Vendor Edit'), Mage::helper('vendor')->__('Vendor Edit'), $this->getUrl('*/vendor_edit'));
-
-        $currentEdit = Mage::registry('current_edit');
-
-        if (!is_null($currentEdit->getId())) {
-            $this->_addBreadcrumb(Mage::helper('vendor')->__('Edit Group'), Mage::helper('vendor')->__('Edit Vendor'));
-        } else {
-            $this->_addBreadcrumb(Mage::helper('vendor')->__('New Group'), Mage::helper('vendor')->__('New Vendor Groups'));
-        }
-
-        $this->_title($currentEdit->getId() ? $currentEdit->getCode() : $this->__('New Group'));
-
-        $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('vendor/adminhtml_vendor_edit', 'vendorEdit')->setEditMode((bool)Mage::registry('current_edit')->getId()));
-
         $this->renderLayout();
     }
 
@@ -102,24 +64,37 @@ class Nv_Vendor_Adminhtml_VendorController extends Mage_Adminhtml_Controller_Act
 
     public function saveAction() 
     {   
-        if ($data = $this->getRequest()->getPost())
-        {           
+        try
+        {
+            if (!$this->getRequest()->getPost())
+            {   
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Invalid request.'));   
+            }
+                
             $id= ($this->getRequest()->getParam('id'));
-            $model = Mage::getModel('vendor/vendor')->load($id);              
-            echo "<pre>";
+            $model = Mage::getModel('vendor/vendor')->load($id);
+            $model->setData('entity_id',$id);
 
-            $model->setData('id',$this->getRequest()->getPost('id'));
-
-            $model->setData('firstName',$this->getRequest()->getPost('firstname'));
+            $model->setData('first_name',$this->getRequest()->getPost('first_name'));
             $model->setData('email',$this->getRequest()->getPost('email'));
-            $model->setData('lastName',$this->getRequest()->getPost('lastname'));
+            $model->setData('mobile',$this->getRequest()->getPost('mobile'));
+            $model->setData('last_name',$this->getRequest()->getPost('last_name'));
+            $model->setData('status',$this->getRequest()->getPost('status'));
+            if($id){
+                $model->setData('updated_date', Mage::getModel('core/date')->date('Y-m-d H:i:s'));
+            }
+            else{
+                $model->setData('created_date', Mage::getModel('core/date')->date('Y-m-d H:i:s'));
+            }
             
-
             $model->save();
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('vendor')->__('successfully saved'));
-            $this->_redirect('vendor/adminhtml_vendor/index');
+            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('vendor')->__('Vendor saved successfully.'));
         }
-
+        catch (Exception $e)
+        {
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+        }
+        $this->_redirect('vendor/adminhtml_vendor/index');
     }
 
     public function massDeleteAction() 
