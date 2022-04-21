@@ -2,11 +2,50 @@
 
 class Nv_Vendor_Adminhtml_VendorController extends Mage_Adminhtml_Controller_Action
 {
+    const ENTITY_TYPE_ID = 11;
+
+    protected function _initEdit()
+    {
+        $this->_title($this->__('Vendors'))->_title($this->__('Vendor Edit'));
+
+        Mage::register('current_edit', Mage::getModel('vendor/vendor'));
+        $vendorId = $this->getRequest()->getParam('id');
+        if (!is_null($vendorId)) {
+            Mage::registry('current_edit')->load($vendorId);
+        }
+
+    }
+
     public function indexAction()
     {
+        
         $this->_title($this->__('Vendor'))->_title($this->__('Manage Vendor'));
         $this->loadLayout();
         $this->_setActiveMenu('vendor/vendor');
+        $this->renderLayout();
+
+    }
+
+    public function newsAction()
+    {
+        $this->_initEdit();
+        $this->loadLayout();
+        $this->_setActiveMenu('vendor/vendor');
+        $this->_addBreadcrumb(Mage::helper('vendor')->__('Vendors'), Mage::helper('vendor')->__('Vendors'));
+        $this->_addBreadcrumb(Mage::helper('vendor')->__('Vendor Edit'), Mage::helper('vendor')->__('Vendor Edit'), $this->getUrl('*/vendor_edit'));
+
+        $currentEdit = Mage::registry('current_edit');
+
+        if (!is_null($currentEdit->getId())) {
+            $this->_addBreadcrumb(Mage::helper('vendor')->__('Edit Group'), Mage::helper('vendor')->__('Edit Vendor'));
+        } else {
+            $this->_addBreadcrumb(Mage::helper('vendor')->__('New Group'), Mage::helper('vendor')->__('New Vendor Groups'));
+        }
+
+        $this->_title($currentEdit->getId() ? $currentEdit->getCode() : $this->__('New Group'));
+
+        $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('vendor/adminhtml_vendor_edit', 'vendorEdit')->setEditMode((bool)Mage::registry('current_edit')->getId()));
+
         $this->renderLayout();
     }
 
@@ -62,32 +101,40 @@ class Nv_Vendor_Adminhtml_VendorController extends Mage_Adminhtml_Controller_Act
         $this->_redirect('vendor/adminhtml_vendor/index');
     }   
 
-    public function saveAction() 
-    {   
+    public function saveAction()
+    {
         try
         {
             if (!$this->getRequest()->getPost())
             {   
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Invalid request.'));   
             }
-                
-            $id= ($this->getRequest()->getParam('id'));
-            $model = Mage::getModel('vendor/vendor')->load($id);
-            $model->setData('entity_id',$id);
-
-            $model->setData('first_name',$this->getRequest()->getPost('first_name'));
-            $model->setData('email',$this->getRequest()->getPost('email'));
-            $model->setData('mobile',$this->getRequest()->getPost('mobile'));
-            $model->setData('last_name',$this->getRequest()->getPost('last_name'));
-            $model->setData('status',$this->getRequest()->getPost('status'));
-            if($id){
-                $model->setData('updated_date', Mage::getModel('core/date')->date('Y-m-d H:i:s'));
+            $postData = $this->getRequest()->getPost();
+            $model = Mage::getModel('vendor/vendor');
+            $date = date('Y-m-d H:i:s');
+            $id = $this->getRequest()->getParam('id');
+            unset($postData['form_key']);
+            if ($id) 
+            {
+                $postData['updated_date'] = $date;
+                foreach($postData as $key => $value)
+                {
+                    $attributeRow = $model->getResource()->getReadConnection()->fetchRow("SELECT * FROM `eav_attribute` WHERE `attribute_code` = '$key' AND `entity_type_id` = 11");
+                    $attributeId = $attributeRow['attribute_id'];
+                    $backendType = $attributeRow['backend_type'];
+                    $entityRow = $model->getResource()->getReadConnection()->fetchRow("SELECT * FROM `vendor_entity_{$backendType}` WHERE `entity_id` = {$id} AND `attribute_id` = {$attributeId}");
+                    $valueId = $entityRow['value_id'];
+                    $result = $model->getResource()->getReadConnection()->fetchAll("UPDATE `vendor_entity_{$backendType}` SET value = '{$value}' WHERE value_id = $valueId AND attribute_id = $attributeId");
+                    $model->save();
+                }
             }
-            else{
-                $model->setData('created_date', Mage::getModel('core/date')->date('Y-m-d H:i:s'));
+            else
+            {
+                $model->setData($postData);
+                $model->setcreatedDate($date);
+                $model->setupdatedDate($date);
+                $model->save();
             }
-            
-            $model->save();
             Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('vendor')->__('Vendor saved successfully.'));
         }
         catch (Exception $e)
