@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Nv_Vendor>
-            <version>0.3.0</version>
+            <version>1.0.0</version>
         </Nv_Vendor>
     </modules>  
     <admin>
@@ -70,9 +70,27 @@
             <vendor_resource>
                 <class>Nv_Vendor_Model_Resource</class>
                 <entities>
-                    <vendor>
-                        <table>vendor</table>
-                    </vendor>  
+                    <vendor_entity>
+                        <table>vendor_entity</table>
+                    </vendor_entity>
+                    <vendor_entity_datetime>
+                        <table>vendor_entity_datetime</table>
+                    </vendor_entity_datetime>
+                    <vendor_entity_decimal>
+                        <table>vendor_entity_decimal</table>
+                    </vendor_entity_decimal>
+                    <vendor_entity_int>
+                        <table>vendor_entity_int</table>
+                    </vendor_entity_int>
+                    <vendor_entity_text>
+                        <table>vendor_entity_text</table>
+                    </vendor_entity_text>
+                    <vendor_entity_varchar>
+                        <table>vendor_entity_varchar</table>
+                    </vendor_entity_varchar>
+                    <vendor_entity_char>
+                        <table>vendor_entity_char</table>
+                    </vendor_entity_char> 
                 </entities>
             </vendor_resource>
         </models>       
@@ -80,6 +98,7 @@
             <vendor_setup>
                 <setup>
                     <module>Nv_Vendor</module>
+                    <class>Nv_Vendor_Model_Resource_Setup</class>
                 </setup>
                 <connection>
                     <use>core_setup</use>

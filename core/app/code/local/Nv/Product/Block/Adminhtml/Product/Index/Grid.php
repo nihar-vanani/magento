@@ -81,7 +81,7 @@ class Nv_Product_Block_Adminhtml_Product_Index_Grid extends Mage_Adminhtml_Block
 		  'index'     => 'updatedAt',
 		));
 
-		$this->addColumn('action',
+		$this->addColumn('action1',
 		    array(
 		        'header'    =>  Mage::helper('product')->__('Action'),
 		        'width'     => '100',
@@ -91,6 +91,25 @@ class Nv_Product_Block_Adminhtml_Product_Index_Grid extends Mage_Adminhtml_Block
 		            array(
 		                'caption'   => Mage::helper('product')->__('Edit'),
 		                'url'       => array('base'=> '*/*/edit'),
+		                'field'     => 'id'
+		            )
+		        ),
+		        'filter'    => false,
+		        'sortable'  => false,
+		        'index'     => 'stores',
+		        'is_system' => true,
+		));
+
+		$this->addColumn('action2',
+		    array(
+		        'header'    =>  Mage::helper('product')->__('Media Action'),
+		        'width'     => '100',
+		        'type'      => 'action',
+		        'getter'    => 'getId',
+		        'actions'   => array(
+		            array(
+		                'caption'   => Mage::helper('product')->__('Media'),
+		                'url'       => array('base'=> '*/*/media'),
 		                'field'     => 'id'
 		            )
 		        ),

@@ -2,6 +2,7 @@
 
 class Nv_Vendor_Adminhtml_VendorController extends Mage_Adminhtml_Controller_Action
 {
+    const ENTITY_TYPE_ID = 11;
 
     protected function _initEdit()
     {
@@ -100,26 +101,47 @@ class Nv_Vendor_Adminhtml_VendorController extends Mage_Adminhtml_Controller_Act
         $this->_redirect('vendor/adminhtml_vendor/index');
     }   
 
-    public function saveAction() 
-    {   
-        if ($data = $this->getRequest()->getPost())
-        {           
-            $id= ($this->getRequest()->getParam('id'));
-            $model = Mage::getModel('vendor/vendor')->load($id);              
-            echo "<pre>";
-
-            $model->setData('id',$this->getRequest()->getPost('id'));
-
-            $model->setData('firstName',$this->getRequest()->getPost('firstname'));
-            $model->setData('email',$this->getRequest()->getPost('email'));
-            $model->setData('lastName',$this->getRequest()->getPost('lastname'));
-            
-
-            $model->save();
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('vendor')->__('successfully saved'));
-            $this->_redirect('vendor/adminhtml_vendor/index');
+    public function saveAction()
+    {
+        try
+        {
+            if (!$this->getRequest()->getPost())
+            {   
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Invalid request.'));   
+            }
+            $postData = $this->getRequest()->getPost();
+            $model = Mage::getModel('vendor/vendor');
+            $date = date('Y-m-d H:i:s');
+            $id = $this->getRequest()->getParam('id');
+            unset($postData['form_key']);
+            if ($id) 
+            {
+                $postData['updated_date'] = $date;
+                foreach($postData as $key => $value)
+                {
+                    $attributeRow = $model->getResource()->getReadConnection()->fetchRow("SELECT * FROM `eav_attribute` WHERE `attribute_code` = '$key' AND `entity_type_id` = 11");
+                    $attributeId = $attributeRow['attribute_id'];
+                    $backendType = $attributeRow['backend_type'];
+                    $entityRow = $model->getResource()->getReadConnection()->fetchRow("SELECT * FROM `vendor_entity_{$backendType}` WHERE `entity_id` = {$id} AND `attribute_id` = {$attributeId}");
+                    $valueId = $entityRow['value_id'];
+                    $result = $model->getResource()->getReadConnection()->fetchAll("UPDATE `vendor_entity_{$backendType}` SET value = '{$value}' WHERE value_id = $valueId AND attribute_id = $attributeId");
+                    $model->save();
+                }
+            }
+            else
+            {
+                $model->setData($postData);
+                $model->setcreatedDate($date);
+                $model->setupdatedDate($date);
+                $model->save();
+            }
+            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('vendor')->__('Vendor saved successfully.'));
         }
-
+        catch (Exception $e)
+        {
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+        }
+        $this->_redirect('vendor/adminhtml_vendor/index');
     }
 
     public function massDeleteAction() 
