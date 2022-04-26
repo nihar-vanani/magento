@@ -4,3 +4,12 @@
 2022-04-19T02:40:48+00:00 ERR (3): Warning: simplexml_load_string(): Entity: line 77: parser error : Opening and ending tag mismatch: catalog_product line 77 and product  in N:\xampp\htdocs\Magento\core\lib\Varien\Simplexml\Config.php on line 510
 2022-04-19T02:40:48+00:00 ERR (3): Warning: simplexml_load_string():                     &lt;catalog_product&gt;Nv_Product_Model_Catalog_Product&lt;/product&gt;  in N:\xampp\htdocs\Magento\core\lib\Varien\Simplexml\Config.php on line 510
 2022-04-19T02:40:48+00:00 ERR (3): Warning: simplexml_load_string():                                                                                ^  in N:\xampp\htdocs\Magento\core\lib\Varien\Simplexml\Config.php on line 510
+2022-04-23T04:38:51+00:00 ERR (3): Warning: simplexml_load_string(): Entity: line 38: parser error : Opening and ending tag mismatch: updates line 34 and updaates  in N:\xampp\htdocs\Magento\core\lib\Varien\Simplexml\Config.php on line 510
+2022-04-23T04:38:51+00:00 ERR (3): Warning: simplexml_load_string(): 			&lt;/updaates&gt;  in N:\xampp\htdocs\Magento\core\lib\Varien\Simplexml\Config.php on line 510
+2022-04-23T04:38:51+00:00 ERR (3): Warning: simplexml_load_string(): 			           ^  in N:\xampp\htdocs\Magento\core\lib\Varien\Simplexml\Config.php on line 510
+2022-04-23T04:38:55+00:00 ERR (3): Warning: simplexml_load_string(): Entity: line 38: parser error : Opening and ending tag mismatch: updates line 34 and updaates  in N:\xampp\htdocs\Magento\core\lib\Varien\Simplexml\Config.php on line 510
+2022-04-23T04:38:55+00:00 ERR (3): Warning: simplexml_load_string(): 			&lt;/updaates&gt;  in N:\xampp\htdocs\Magento\core\lib\Varien\Simplexml\Config.php on line 510
+2022-04-23T04:38:55+00:00 ERR (3): Warning: simplexml_load_string(): 			           ^  in N:\xampp\htdocs\Magento\core\lib\Varien\Simplexml\Config.php on line 510
+2022-04-23T04:39:00+00:00 ERR (3): Warning: simplexml_load_string(): Entity: line 38: parser error : Opening and ending tag mismatch: updates line 34 and updaates  in N:\xampp\htdocs\Magento\core\lib\Varien\Simplexml\Config.php on line 510
+2022-04-23T04:39:00+00:00 ERR (3): Warning: simplexml_load_string(): 			&lt;/updaates&gt;  in N:\xampp\htdocs\Magento\core\lib\Varien\Simplexml\Config.php on line 510
+2022-04-23T04:39:00+00:00 ERR (3): Warning: simplexml_load_string(): 			           ^  in N:\xampp\htdocs\Magento\core\lib\Varien\Simplexml\Config.php on line 510
