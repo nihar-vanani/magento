@@ -14,6 +14,7 @@ class Nv_Vendor_Block_Adminhtml_Vendor_Grid extends Mage_Adminhtml_Block_Widget_
 	protected function _prepareCollection() {
 		$collection = Mage::getModel('vendor/vendor')->getCollection()
             ->addAttributeToSelect('firstname')
+            ->addAttributeToSelect('email')
             ->addAttributeToSelect('lastname');
 		$storeId = $this->_getStoreId();
 		$collection->joinAttribute(
@@ -27,6 +28,14 @@ class Nv_Vendor_Block_Adminhtml_Vendor_Grid extends Mage_Adminhtml_Block_Widget_
 		$collection->joinAttribute(
 			'lastname',
 			'vendor/lastname',
+			'entity_id',
+			null,
+			'inner',
+			$storeId
+		);
+		$collection->joinAttribute(
+			'email',
+			'vendor/email',
 			'entity_id',
 			null,
 			'inner',
@@ -65,6 +74,13 @@ class Nv_Vendor_Block_Adminhtml_Vendor_Grid extends Mage_Adminhtml_Block_Widget_
 				'header' => Mage::helper('vendor')->__('Last Name'),
 				'width' => '50px',
 				'index' => 'lastname',
+			]
+		);
+		$this->addColumn('email',
+			[
+				'header' => Mage::helper('vendor')->__('Email'),
+				'width' => '50px',
+				'index' => 'email',
 			]
 		);
 
