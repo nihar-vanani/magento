@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<layout>
+	<process_adminhtml_process_index>
+		<reference name="content">
+			<block type="process/adminhtml_process" name="process_grid"/>
+		</reference>
+	</process_adminhtml_process_index>
+	<process_adminhtml_process_edit>
+		<reference name="content">
+			<block type="process/adminhtml_process_edit" name="process_edit"/>
+		</reference>
+	</process_adminhtml_process_edit>
+	<process_adminhtml_processentry_index>
+		<reference name="content">
+			<block type="process/adminhtml_process_entry" name="process_entry_grid"/>
+		</reference>
+	</process_adminhtml_processentry_index>
+	<process_adminhtml_processentry_edit>
+		<reference name="content">
+			<block type="process/adminhtml_process_entry_edit" name="process_entry_edit"/>
+		</reference>
+	</process_adminhtml_processentry_edit>
+	<process_adminhtml_processcolumn_index>
+		<reference name="content">
+			<block type="process/adminhtml_process_column" name="process_column_grid"/>
+		</reference>
+	</process_adminhtml_processcolumn_index>
+	<process_adminhtml_processcolumn_edit>
+		<reference name="content">
+			<block type="process/adminhtml_process_column_edit" name="process_column_edit"/>
+		</reference>
+	</process_adminhtml_processcolumn_edit>
+	<process_adminhtml_processgroup_index>
+		<reference name="content">
+			<block type="process/adminhtml_process_group" name="process_group_grid"/>
+		</reference>
+	</process_adminhtml_processgroup_index>
+	<process_adminhtml_processgroup_edit>
+		<reference name="content">
+			<block type="process/adminhtml_process_group_edit" name="process_group_edit"/>
+		</reference>
+	</process_adminhtml_processgroup_edit>
+	<process_adminhtml_processupload_uploadfile>
+        <reference name="content">
+            <block type="process/adminhtml_process_upload_edit" name="process_upload_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="process/adminhtml_process_upload_edit_tabs" name="process_upload_edit_tab"></block>
+        </reference>
+    </process_adminhtml_processupload_uploadfile>
+</layout>
