@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Nv_Process>
+			<active>true</active>
+			<codePool>local</codePool>
+		</Nv_Process>
+	</modules>
+</config>

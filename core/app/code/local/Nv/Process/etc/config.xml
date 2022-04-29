@@ -1,0 +1,111 @@
+<?xml version="1.0" ?>
+<config>
+	<modules>
+		<Nv_Process>
+			<version>0.1.0</version>
+		</Nv_Process>
+	</modules>
+	<admin>
+		<routers>
+			<process>
+				<use>admin</use>
+				<args>
+					<module>Nv_Process</module>
+					<frontName>process</frontName>
+				</args>
+			</process>
+		</routers>
+	</admin>
+	<adminhtml>
+		<menu>
+			<process module="process">
+				<title>Process</title>
+				<children>
+					<item module="process">
+						<title>Manage Process</title>
+						<action>process/adminhtml_process/</action>
+						<sort_order>80</sort_order>
+					</item>
+					<item1 module="process">
+						<title>Manage Process Groups</title>
+						<action>process/adminhtml_processgroup/</action>
+						<sort_order>80</sort_order>
+					</item1>
+					<item2 module="process">
+						<title>Manage Process Columns</title>
+						<action>process/adminhtml_processcolumn/</action>
+						<sort_order>80</sort_order>
+					</item2>
+					<item3 module="process">
+						<title>Manage Process Entries</title>
+						<action>process/adminhtml_processentry/</action>
+						<sort_order>80</sort_order>
+					</item3>
+				</children>
+			</process>
+		</menu>
+		<layout>
+            <updates>
+                <process>
+                    <file>process.xml</file>
+                </process>
+            </updates>
+        </layout>
+	</adminhtml>
+	<global>
+		<helpers>
+			<process>
+				<class>Nv_Process_Helper</class>
+			</process>
+		</helpers>
+		<blocks>
+			<process>
+				<class>Nv_Process_Block</class>
+			</process>
+		</blocks>
+		<models>
+			<process>
+				<class>Nv_Process_Model</class>
+				<resourceModel>process_resource</resourceModel>
+			</process>
+			<process_resource>
+				<class>Nv_Process_Model_Resource</class>
+				<deprecatedNode>process_mysql4</deprecatedNode>
+				<entities>
+					<process>
+						<table>process</table>
+					</process>
+					<process_group>
+						<table>process_group</table>
+					</process_group>
+					<process_entry>
+						<table>process_entry</table>
+					</process_entry>
+					<process_column>
+						<table>process_column</table>
+					</process_column>
+				</entities>
+			</process_resource>
+		</models>
+		<resources>
+            <process_setup>
+                <setup>
+                    <module>Nv_Process</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </process_setup>
+            <process_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </process_write>
+            <process_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </process_read>
+        </resources>    	
+	</global>
+</config>
