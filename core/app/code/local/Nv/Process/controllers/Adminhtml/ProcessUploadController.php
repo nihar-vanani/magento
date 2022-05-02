@@ -32,7 +32,7 @@ class Nv_Process_Adminhtml_ProcessUploadController extends Mage_Adminhtml_Contro
     {
         $Id = $this->getRequest()->getParam('id');
         $model = Mage::getModel('process/process');
-        if($model->load($processId)){
+        if($model->load($Id)){
             $fileName = $model->uploadFile($Id);
         }
         $this->_redirect('process/adminhtml_process/index');
@@ -45,6 +45,24 @@ class Nv_Process_Adminhtml_ProcessUploadController extends Mage_Adminhtml_Contro
         $model->verify();
         $this->_redirect('process/adminhtml_process/index');
     }
+
+    public function exportAction()
+    {
+        try {
+            $id = $this->getRequest()->getParam('id');
+            $model = Mage::getModel('process/process')->load($id);
+            $csv = $model->downloadSample();
+            $this->_prepareDownloadResponse($model->getFileName(), $csv);
+            $this->_getSession()->addSuccess($this->__("File Downloaded."));
+            $this->_redirect('process/adminhtml_process/index');
+        }
+        catch (Exception $e) {
+            $this->_getSession()->addError($this->__($e->getMessage()));
+            $this->_redirect('process/adminhtml_process/index');
+        }
+    }
+
+
 }
 
 ?>

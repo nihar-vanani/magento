@@ -41,6 +41,12 @@ class Nv_Process_Block_Adminhtml_Process_Column_Edit_Tab_Form extends Mage_Admin
           'value' => $model->getData('name'),
       ));
 
+      $fieldset->addField('sample_value', 'text', array(
+          'label'     => Mage::helper('process')->__('Sample Value'),          
+          'name'      => 'sample_value',
+          'value' => $model->getData('sample_value'),
+      ));
+
       $fieldset->addField('casting_type', 'select',
             array(
                 'name'  => 'casting_type',
@@ -49,11 +55,11 @@ class Nv_Process_Block_Adminhtml_Process_Column_Edit_Tab_Form extends Mage_Admin
                 'required' => true,
                 'values' => [
                   ['value' => Nv_Process_Model_Process_Column::TYPE_INTEGER, 'label' => Mage::helper('process')->__('integer')],
-                  ['value' => Nv_Process_Model_Process_Column::TYPE_FLOAT, 'label' => Mage::helper('process')->__('float')],
+                  ['value' => Nv_Process_Model_Process_Column::TYPE_VARCHAR, 'label' => Mage::helper('process')->__('varchar')],
                   ['value' => Nv_Process_Model_Process_Column::TYPE_DECIMAL, 'label' => Mage::helper('process')->__('decimal')],
                   ['value' => Nv_Process_Model_Process_Column::TYPE_DATETIME, 'label' => Mage::helper('process')->__('datetime')],
                   ['value' => Nv_Process_Model_Process_Column::TYPE_TEXT, 'label' => Mage::helper('process')->__('text')],
-                  ['value' => Nv_Process_Model_Process_Column::TYPE_VARCHAR, 'label' => Mage::helper('process')->__('varchar')]
+                  ['value' => Nv_Process_Model_Process_Column::TYPE_FLOAT, 'label' => Mage::helper('process')->__('float')]
                 ]
             )
         );
