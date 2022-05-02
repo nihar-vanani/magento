@@ -10,25 +10,7 @@ class Nv_Process_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
 	public function indexAction()
 	{
 		$this->_initAction();
-		// $this->_addContent($this->getLayout()->createBlock('process/adminhtml_process'));
 		$this->renderLayout();
-	}
-
-	public function uploadAction()
-	  {
-	    $this->_initAction();
-	    $this->_addContent($this->getLayout()->createBlock('process/adminhtml_process_upload'));
-	    $this->renderLayout();
-	  }
-
-	public function verifyAction()
-	{
-		echo "string2";
-	}
-
-	public function executeAction()
-	{
-		echo "string3";
 	}
 
 	public function newAction()
@@ -79,9 +61,9 @@ class Nv_Process_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
 	{
 		if( $this->getRequest()->getParam('id') > 0 ) {
 			try {
-				$salesmanModel = Mage::getModel('process/process');
+				$model = Mage::getModel('process/process');
 
-				$salesmanModel->setId($this->getRequest()->getParam('id'))
+				$model->setId($this->getRequest()->getParam('id'))
 				->delete();
 
 				$this->_redirect('*/*/');
