@@ -15,6 +15,11 @@ class Nv_Process_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
 
 	protected function _prepareColumns()
 	{
+		$this->addColumn('process_id', array(
+	        'header' => Mage::helper('process')->__('Process Id'),
+	        'index' => 'process_id',
+	    ));
+
 	    $this->addColumn('group_id', array(
 	        'header' => Mage::helper('process')->__('Group Id'),
 	        'index' => 'group_id',
@@ -76,6 +81,11 @@ class Nv_Process_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
 		            array(
 		                'caption'   => Mage::helper('process')->__('Upload'),
 		                'url'       => array('base'=> '*/adminhtml_processupload/uploadfile'),
+		                'field'     => 'id'
+		            ),
+		            array(
+		                'caption'   => Mage::helper('process')->__('Export'),
+		                'url'       => array('base'=> '*/adminhtml_processupload/export'),
 		                'field'     => 'id'
 		            ),
 		            array(

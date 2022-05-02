@@ -26,6 +26,12 @@ class Nv_Process_Block_Adminhtml_Process_Column_Grid extends Mage_Adminhtml_Bloc
 	        'index' => 'name',
 	    ));
 
+	    $this->addColumn('sample_value', array(
+	        'header' => Mage::helper('process')->__('Sample Value'),
+	        'align' => 'right',
+	        'index' => 'sample_value',
+	    ));
+
 	    $this->addColumn('required', array(
 				'header' => Mage::helper('process')->__('Required'),
 				'index' => 'required',
@@ -42,11 +48,11 @@ class Nv_Process_Block_Adminhtml_Process_Column_Grid extends Mage_Adminhtml_Bloc
 				'type'      => 'options',
 	            'options'   => array(
 	                1 => Mage::helper('process')->__('integer'),
-	                2 => Mage::helper('process')->__('float'),
+	                2 => Mage::helper('process')->__('varchar'),
 	                3 => Mage::helper('process')->__('decimal'),
 	                4 => Mage::helper('process')->__('datetime'),
 	                5 => Mage::helper('process')->__('text'),
-	                6 => Mage::helper('process')->__('varchar'),
+	                6 => Mage::helper('process')->__('float')
 	            ),
 		));
 
