@@ -13,6 +13,13 @@ class Nv_Process_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
 		$this->renderLayout();
 	}
 
+	public function uploadAction()
+	{
+		$this->_initAction();
+		$this->_addContent($this->getLayout()->createBlock('process/adminhtml_process_upload'));
+		$this->renderLayout();
+	}
+
 	public function newAction()
 	{
 		$this->_forward('edit');

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Process Entries</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script>
+		admin = {
+			execute : function(){
+				const self = this;
+				$.ajax({
+					url: "<?php echo Mage::getUrl('process/adminhtml_processupload/executeEntry/',[]); ?>",
+					type: "GET",
+					data: {'key' : '328fe4f06e0acf9c1f73290a4325c005'},
+					success: function(data){
+						console.log(data);
+					}
+				});
+			},
+			redirect : function(){
+				$.ajax({
+					url: "<?php echo Mage::getUrl('process/adminhtml_process/index/key',[]); ?>",
+					type: "GET",
+					data: {'key' : 'bfcfc7226b59517849bddad01ef24bb5'},
+					success: function(data){
+						console.log(data);
+					}
+				});
+			}
+		}
+	</script>
+</head>
+<body>
+	<h1>Entry Processing .......</h1>
+	<p><?php echo Mage::getUrl('process/adminhtml_processupload/executeEntry/key',[]); ?></p>
+	<p><?php echo $this->getRequest()->getParam('id'); ?></p>
+
+	<script type="text/javascript">
+		admin.execute();
+	</script>
+</body>
+</html>

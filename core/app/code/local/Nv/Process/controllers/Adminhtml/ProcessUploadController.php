@@ -40,9 +40,18 @@ class Nv_Process_Adminhtml_ProcessUploadController extends Mage_Adminhtml_Contro
 
     public function verifyAction()
     {
-        $Id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('process/process')->load($Id);
-        $model->verify();
+        try {
+            $Id = $this->getRequest()->getParam('id');
+            $process = Mage::getModel('process/process');
+            if ($process->load($Id)) {
+                $model = Mage::getModel($process->getRequestModel());
+                $filename = $model->setProcess($process)->verify();
+            }
+            $this->_getSession()->addSuccess(Mage::helper('process')->__("File Verified successfully."));
+        }
+        catch (Exception $e) {
+            $this->_getSession()->addError(Mage::helper('process')->__($e->getMessage()));
+        }
         $this->_redirect('process/adminhtml_process/index');
     }
 
@@ -62,7 +71,60 @@ class Nv_Process_Adminhtml_ProcessUploadController extends Mage_Adminhtml_Contro
         }
     }
 
+    public function executeAction()
+    {
+        $this->loadLayout();
+        $id = $this->getRequest()->getParam('id');
+        $process = Mage::getModel('process/process')->load($id);
+        $entry = Mage::getModel('process/process_entry');
+        $select = $entry->getCollection()
+                        ->getSelect()
+                        ->reset(Zend_Db_Select::COLUMNS)
+                        ->columns('data')
+                        ->where('process_id = '.$id);
+        $entryRows = $entry->getResource()->getReadConnection()->fetchAll($select);
+        $totalCount = count($entryRows);
+        $perRequestCount = $process->getPerRequestCount();
+        $totalRequest = $totalCount/$perRequestCount;
+        $currentRequest = 1;
+        Mage::getSingleton('core/session')->setVariables(['processId' => $id, 'totalCount' => $totalCount, 'perRequestCount' => $perRequestCount, 'totalRequest' => $totalRequest, 'currentRequest' => $currentRequest]);
+        $this->renderLayout();
+    }
 
+    public function executeEntryAction()
+    {
+        try {
+            $session = Mage::getSingleton('core/session')->setVariables();
+            $processId = $session['processId'];
+            $totalCount = $session['totalCount'];
+            $perRequestCount = $session['perRequestCount'];
+            $totalRequest = $session['totalRequest'];
+            $currentRequest = $session['currentRequest'];
+
+            $process = Mage::getModel('process/process')->load($processId);
+            $entry = Mage::getModel('process/process_entry');
+            $select = $entry->getCollection()
+                            ->getSelect()
+                            ->reset(Zend_Db_Select::COLUMNS)
+                            ->columns('data')
+                            ->limit($perRequestCount, $currentRequest);
+            $entryRows = $entry->getResource()->getReadConnection()->fetchAll($select);
+
+            foreach ($entryRows as $key => $row) {
+                $entryRows[$key] = json_decode($row['data']);
+            }
+            foreach ($entryRows as $key => $row) {
+               $model = Mage::getModel($process->getRequestModel());
+                $model->setData('name', $row->name);
+               $model->setData('path', $row->path);
+               $model->save();
+            }
+
+        }
+        catch (Exception $e) {
+            
+        }
+    }
 }
 
 ?>
