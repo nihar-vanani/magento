@@ -43,10 +43,11 @@ class Nv_Process_Adminhtml_ProcessUploadController extends Mage_Adminhtml_Contro
         try {
             $Id = $this->getRequest()->getParam('id');
             $process = Mage::getModel('process/process');
-            if ($process->load($Id)) {
-                $model = Mage::getModel($process->getRequestModel());
-                $filename = $model->setProcess($process)->verify();
+            if (!$process->load($Id)) {
+                throw new Exception("No process found.", 1);
             }
+            $model = Mage::getModel($process->getRequestModel());
+            $model->setProcess($process)->verify();
             $this->_getSession()->addSuccess(Mage::helper('process')->__("File Verified successfully."));
         }
         catch (Exception $e) {
@@ -73,53 +74,85 @@ class Nv_Process_Adminhtml_ProcessUploadController extends Mage_Adminhtml_Contro
 
     public function executeAction()
     {
-        $this->loadLayout();
-        $id = $this->getRequest()->getParam('id');
-        $process = Mage::getModel('process/process')->load($id);
+        try {
+            $this->loadLayout();
+            $id = $this->getRequest()->getParam('id');
+            $process = Mage::getModel('process/process')->load($id);
+            if (!$process) {
+                throw new Exception("No process found.", 1);
+            }
+            $this->_prepareProcessEntryVariables($process);
+            $this->renderLayout();
+        }
+        catch (Exception $e)
+        {
+            $this->_getSession()->addError($this->__($e->getMessage()));
+            $this->_redirect('process/adminhtml_process/index');
+        }
+    }
+
+    protected function _prepareProcessEntryVariables($process)
+    {
+        $sessionVariables = [
+            'processId' => $process->getId(),
+            'totalCount' => 0,
+            'perRequestCount' => 0,
+            'totalRequest' => 0,
+            'currentRequest' => 0
+        ];
+
         $entry = Mage::getModel('process/process_entry');
         $select = $entry->getCollection()
                         ->getSelect()
                         ->reset(Zend_Db_Select::COLUMNS)
-                        ->columns('data')
-                        ->where('process_id = '.$id);
-        $entryRows = $entry->getResource()->getReadConnection()->fetchAll($select);
-        $totalCount = count($entryRows);
-        $perRequestCount = $process->getPerRequestCount();
-        $totalRequest = $totalCount/$perRequestCount;
-        $currentRequest = 1;
-        Mage::getSingleton('core/session')->setVariables(['processId' => $id, 'totalCount' => $totalCount, 'perRequestCount' => $perRequestCount, 'totalRequest' => $totalRequest, 'currentRequest' => $currentRequest]);
-        $this->renderLayout();
+                        ->columns('count(entry_id)')
+                        ->where('process_id = '.$process->getId())
+                        ->where('start_time IS NULL');
+        $entryCount = $entry->getResource()->getReadConnection()->fetchOne($select);
+
+        if (!$entryCount) {
+            Mage::getSingleton('core/session')->unsetProcessEntryVariables();
+            throw new Exception("No data available to process.", 1);
+        }
+
+        $sessionVariables['totalCount'] = $entryCount;
+        $sessionVariables['perRequestCount'] = $process->getPerRequestCount();
+        $sessionVariables['totalRequest'] = ceil($sessionVariables['totalCount']/$sessionVariables['perRequestCount']);
+        $sessionVariables['currentRequest'] = 0;
+        Mage::getSingleton('core/session')->setProcessEntryVariables($sessionVariables);
     }
 
-    public function executeEntryAction()
+    public function processEntryAction()
     {
         try {
-            $session = Mage::getSingleton('core/session')->setVariables();
-            $processId = $session['processId'];
-            $totalCount = $session['totalCount'];
-            $perRequestCount = $session['perRequestCount'];
-            $totalRequest = $session['totalRequest'];
-            $currentRequest = $session['currentRequest'];
-
+            $sessionVariables = Mage::getSingleton('core/session')->getProcessEntryVariables($sessionVariables);
+            if ($sessionVariables['currentRequest'] > $sessionVariables['totalRequest'])
+            {
+               throw new Exception("No Request Available");
+            }
+            $processId = $sessionVariables['processId'];
             $process = Mage::getModel('process/process')->load($processId);
-            $entry = Mage::getModel('process/process_entry');
-            $select = $entry->getCollection()
-                            ->getSelect()
-                            ->reset(Zend_Db_Select::COLUMNS)
-                            ->columns('data')
-                            ->limit($perRequestCount, $currentRequest);
-            $entryRows = $entry->getResource()->getReadConnection()->fetchAll($select);
-
-            foreach ($entryRows as $key => $row) {
-                $entryRows[$key] = json_decode($row['data']);
+            if (!$process) {
+                throw new Exception("No Process Found.");
             }
-            foreach ($entryRows as $key => $row) {
-               $model = Mage::getModel($process->getRequestModel());
-                $model->setData('name', $row->name);
-               $model->setData('path', $row->path);
-               $model->save();
+            $requestModel = Mage::getModel($process->getRequestModel());
+            $requestModel->setProcess($process)->execute();
+            sleep(2);
+            $reload = false;
+            if ($sessionVariables['currentRequest'] == $sessionVariables['totalRequest']){
+                $reload = true;
             }
 
+            $sessionVariables['currentRequest'] += 1;
+            Mage::getSingleton('core/session')->setProcessEntryVariables($sessionVariables);
+
+            $response = [
+                'status' => 'success',
+                'reload' => $reload,
+                'sessionVariables' => $sessionVariables,
+                'message' => "Processing : " . ($sessionVariables['currentRequest'])*($sessionVariables['perRequestCount']). "|" .($sessionVariables['totalCount']),
+            ];
+           $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($response));
         }
         catch (Exception $e) {
             

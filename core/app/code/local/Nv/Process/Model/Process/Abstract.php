@@ -370,4 +370,32 @@ class Nv_Process_Model_Process_Abstract extends Mage_Core_Model_Abstract
     	$csv = new Varien_File_Csv();
     	$csv->saveData($this->getFilePath(). DS . 'invalid.csv', $invalid);
     }
+
+    public function execute()
+    {
+        echo "<pre>";
+        $date = date("Y-m-d H-m-s");
+        $entry = Mage::getModel('process/process_entry');
+        $select = $entry->getCollection()
+                        ->getSelect()
+                        ->where('process_id = '.$this->getProcess()->getId())
+                        ->where('start_time IS NULL')
+                        ->limit($this->getProcess()->getPerRequestCount());
+        $entries = $entry->getResource()->getReadConnection()->fetchAll($select);
+        print_r($entries);
+        die();
+        if (! $entries) {
+            throw new Exception("No Entries Found.");
+        }
+        $entryIds = implode(',', array_column($entries, 'entry_id'));
+        $query = "UPDATE `process_entry` SET `start_time` = '{$date}' WHERE `entry_id` IN ({$entryIds})";
+        $this->executeEntries();
+        $entry->getResource()->getReadConnection()->fetchAll($query);
+        die();
+    }
+
+    public function executeEntries()
+    {
+        
+    }
 }

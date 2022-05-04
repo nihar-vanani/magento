@@ -10,21 +10,25 @@
 			execute : function(){
 				const self = this;
 				$.ajax({
-					url: "<?php echo Mage::getUrl('process/adminhtml_processupload/executeEntry/',[]); ?>",
-					type: "GET",
-					data: {'key' : '328fe4f06e0acf9c1f73290a4325c005'},
+					url: "<?php echo Mage::getUrl('process/adminhtml_processupload/processEntry/'); ?>",
+					type: "POST",
+					data: jQuery('#process_form').serialize(),
+					dataType: 'json',
 					success: function(data){
 						console.log(data);
-					}
-				});
-			},
-			redirect : function(){
-				$.ajax({
-					url: "<?php echo Mage::getUrl('process/adminhtml_process/index/key',[]); ?>",
-					type: "GET",
-					data: {'key' : 'bfcfc7226b59517849bddad01ef24bb5'},
-					success: function(data){
-						console.log(data);
+						if (data.status == 'success')
+		               	{
+		               		if (data.reload == true)
+		               		{
+		               			window.location.reload();
+		               		}
+		               		jQuery('#message').html(data.message);
+		               		self.execute();
+		               	}
+		               	else
+		               	{
+		               		alert('Failed');
+		               	}
 					}
 				});
 			}
@@ -32,9 +36,11 @@
 	</script>
 </head>
 <body>
+	<form action="<?php echo Mage::getUrl('process/adminhtml_processupload/processEntry/',[]); ?>" id="process_form" type="POST">
+		<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>">
+	</form>
 	<h1>Entry Processing .......</h1>
-	<p><?php echo Mage::getUrl('process/adminhtml_processupload/executeEntry/key',[]); ?></p>
-	<p><?php echo $this->getRequest()->getParam('id'); ?></p>
+	<div id="message"></div>
 
 	<script type="text/javascript">
 		admin.execute();
