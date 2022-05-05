@@ -10,16 +10,16 @@ class Nv_Process_Adminhtml_ProcessUploadController extends Mage_Adminhtml_Contro
 
     public function uploadfileAction()
     {
-        $processId = $this->getRequest()->getParam('id');
+        $id = $this->getRequest()->getParam('id');
 		Mage::getSingleton('cms/wysiwyg_config')->setStoreId($this->getRequest()->getParam('store'));
 
 		$process = Mage::getModel('process/process')
 			->setStoreId($this->getRequest()->getParam('store', 0))
-			->load($processId);
+			->load($id);
 
 		Mage::register('current_process_media', $process);
 
-		if (!$processId) {
+		if (!$id) {
 			$this->_getSession()->addError(Mage::helper('process')->__('This process no longer exists'));
 			$this->_redirect('*/*/');
 			return;
@@ -118,7 +118,7 @@ class Nv_Process_Adminhtml_ProcessUploadController extends Mage_Adminhtml_Contro
         $sessionVariables['totalCount'] = $entryCount;
         $sessionVariables['perRequestCount'] = $process->getPerRequestCount();
         $sessionVariables['totalRequest'] = ceil($sessionVariables['totalCount']/$sessionVariables['perRequestCount']);
-        $sessionVariables['currentRequest'] = 0;
+        $sessionVariables['currentRequest'] = 1;
         Mage::getSingleton('core/session')->setProcessEntryVariables($sessionVariables);
     }
 
@@ -150,7 +150,7 @@ class Nv_Process_Adminhtml_ProcessUploadController extends Mage_Adminhtml_Contro
                 'status' => 'success',
                 'reload' => $reload,
                 'sessionVariables' => $sessionVariables,
-                'message' => "Processing : " . ($sessionVariables['currentRequest'])*($sessionVariables['perRequestCount']). "|" .($sessionVariables['totalCount']),
+                'message' => "Processing : " . ($sessionVariables['currentRequest'] - 1)*($sessionVariables['perRequestCount']). "|" .($sessionVariables['totalCount']),
             ];
            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($response));
         }

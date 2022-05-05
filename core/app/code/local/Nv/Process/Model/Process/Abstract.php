@@ -345,7 +345,7 @@ class Nv_Process_Model_Process_Abstract extends Mage_Core_Model_Abstract
     {
     	$entry = Mage::getModel('process/process_entry');
     	$readConnection = $entry->getResource()->getReadConnection();
-    	$readConnection->insertMultiple($entry->getResource()->getTable('process/process_entry'), $this->getFileDatas());
+    	$readConnection->insertMultiple($entry->getResource()->getMainTable(), $this->getFileDatas());
     }
 
     public function getIdentifier($row)
@@ -373,8 +373,7 @@ class Nv_Process_Model_Process_Abstract extends Mage_Core_Model_Abstract
 
     public function execute()
     {
-        echo "<pre>";
-        $date = date("Y-m-d H-m-s");
+        $date = date("Y-m-d_H-i-s");
         $entry = Mage::getModel('process/process_entry');
         $select = $entry->getCollection()
                         ->getSelect()
@@ -382,20 +381,24 @@ class Nv_Process_Model_Process_Abstract extends Mage_Core_Model_Abstract
                         ->where('start_time IS NULL')
                         ->limit($this->getProcess()->getPerRequestCount());
         $entries = $entry->getResource()->getReadConnection()->fetchAll($select);
-        print_r($entries);
-        die();
         if (! $entries) {
             throw new Exception("No Entries Found.");
         }
         $entryIds = implode(',', array_column($entries, 'entry_id'));
         $query = "UPDATE `process_entry` SET `start_time` = '{$date}' WHERE `entry_id` IN ({$entryIds})";
-        $this->executeEntries();
         $entry->getResource()->getReadConnection()->fetchAll($query);
-        die();
+        $this->importEntries($entries);
+        $query = "UPDATE `process_entry` SET `end_time` = '{$date}' WHERE `entry_id` IN ({$entryIds})";
+        $entry->getResource()->getReadConnection()->fetchAll($query);
     }
 
-    public function executeEntries()
+    public function importEntries($entries)
     {
-        
+        foreach ($entries as $key => $row) {
+            $row = json_decode($row['data'], true);
+            $row['created_date'] = date('Y-m-d_H-i-s');
+            $this->setData($row);
+            $this->save();
+        }
     }
 }

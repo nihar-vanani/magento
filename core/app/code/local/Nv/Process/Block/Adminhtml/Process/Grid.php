@@ -112,6 +112,18 @@ class Nv_Process_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
 	    return parent::_prepareColumns();
 	}
 
+	protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('process_id');
+        $this->getMassactionBlock()->setFormFieldName('process');
+
+        $this->getMassactionBlock()->addItem('delete', array(
+             'label'    => Mage::helper('process')->__('Delete'),
+             'url'      => $this->getUrl('*/*/massDelete'),
+             'confirm'  => Mage::helper('process')->__('Are you sure?')
+        ));
+    }
+
 	public function getRowUrl($row)
 	{
 	    return $this->getUrl('*/*/edit', array('id'=>$row->getId()));

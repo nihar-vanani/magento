@@ -3,7 +3,7 @@ class Nv_Process_Model_Category extends Nv_Process_Model_Process_Abstract
 {
 	protected function _construct()
     {
-        $this->_init('process/category');
+        $this->_init('category/category');
     }
 
 	public function getIdentifier($row)

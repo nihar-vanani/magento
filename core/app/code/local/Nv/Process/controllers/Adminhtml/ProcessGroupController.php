@@ -59,9 +59,9 @@ class Nv_Process_Adminhtml_ProcessGroupController extends Mage_Adminhtml_Control
 	{
 		if( $this->getRequest()->getParam('id') > 0 ) {
 			try {
-				$salesmanModel = Mage::getModel('process/process_group');
+				$model = Mage::getModel('process/process_group');
 
-				$salesmanModel->setId($this->getRequest()->getParam('id'))
+				$model->setId($this->getRequest()->getParam('id'))
 				->delete();
 
 				$this->_redirect('*/*/');
@@ -71,5 +71,32 @@ class Nv_Process_Adminhtml_ProcessGroupController extends Mage_Adminhtml_Control
 		}
 		$this->_redirect('*/*/');
 	}
+
+    public function massDeleteAction() 
+    {
+        $group_ids = $this->getRequest()->getParam('group');
+        if(!is_array($group_ids))
+        {
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select items.'));
+        } 
+        else 
+        {
+            try
+            {
+                foreach ($group_ids as $group_id)
+                {
+                    $group = Mage::getModel('process/process_group')->load($group_id);
+                    $group->delete();
+                }
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::helper('adminhtml')->__('Total of %d record(s) were successfully deleted.', count($group_ids)));
+            } 
+            catch (Exception $e)
+            {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
+        }
+        $this->_redirect('*/*/');
+    }
 
 }

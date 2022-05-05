@@ -26,27 +26,20 @@ class Nv_Process_Block_Adminhtml_Process_Group_Grid extends Mage_Adminhtml_Block
 	        'index' => 'name',
 	    ));
 
-	    $this->addColumn('action',
-		    array(
-		        'header'    =>  Mage::helper('process')->__('Action'),
-		        'width'     => '100',
-		        'type'      => 'action',
-		        'getter'    => 'getId',
-		        'actions'   => array(
-		            array(
-		                'caption'   => Mage::helper('process')->__('Edit'),
-		                'url'       => array('base'=> '*/*/edit'),
-		                'field'     => 'id'
-		            )
-		        ),
-		        'filter'    => false,
-		        'sortable'  => false,
-		        'index'     => 'stores',
-		        'is_system' => true,
-		));
-
 	    return parent::_prepareColumns();
 	}
+
+	protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('group_id');
+        $this->getMassactionBlock()->setFormFieldName('group');
+
+        $this->getMassactionBlock()->addItem('delete', array(
+             'label'    => Mage::helper('process')->__('Delete'),
+             'url'      => $this->getUrl('*/*/massDelete'),
+             'confirm'  => Mage::helper('process')->__('Are you sure?')
+        ));
+    }
 
 	public function getRowUrl($row)
 	{

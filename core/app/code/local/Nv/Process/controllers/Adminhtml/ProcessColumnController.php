@@ -61,9 +61,9 @@ class Nv_Process_Adminhtml_ProcessColumnController extends Mage_Adminhtml_Contro
 	{
 		if( $this->getRequest()->getParam('id') > 0 ) {
 			try {
-				$salesmanModel = Mage::getModel('process/process_column');
+				$model = Mage::getModel('process/process_column');
 
-				$salesmanModel->setId($this->getRequest()->getParam('id'))
+				$model->setId($this->getRequest()->getParam('id'))
 				->delete();
 
 				$this->_redirect('*/*/');
@@ -73,5 +73,32 @@ class Nv_Process_Adminhtml_ProcessColumnController extends Mage_Adminhtml_Contro
 		}
 		$this->_redirect('*/*/');
 	}
+
+	public function massDeleteAction() 
+    {
+        $column_ids = $this->getRequest()->getParam('column');
+        if(!is_array($column_ids))
+        {
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select items.'));
+        } 
+        else 
+        {
+            try
+            {
+                foreach ($column_ids as $column_id)
+                {
+                    $column = Mage::getModel('process/process_column')->load($column_id);
+                    $column->delete();
+                }
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::helper('adminhtml')->__('Total of %d record(s) were successfully deleted.', count($column_ids)));
+            } 
+            catch (Exception $e)
+            {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
+        }
+        $this->_redirect('*/*/');
+    }
 
 }
