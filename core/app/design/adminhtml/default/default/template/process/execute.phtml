@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Process Entries</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script>
+		admin = {
+			execute : function(){
+				const self = this;
+				$.ajax({
+					url: "<?php echo Mage::getUrl('process/adminhtml_processupload/processEntry/'); ?>",
+					type: "POST",
+					data: jQuery('#process_form').serialize(),
+					dataType: 'json',
+					success: function(data){
+						console.log(data);
+						if (data.status == 'success')
+		               	{
+		               		if (data.reload == true)
+		               		{
+		               			window.location.reload();
+		               		}
+		               		jQuery('#message').html(data.message);
+		               		self.execute();
+		               	}
+		               	else
+		               	{
+		               		alert('Failed');
+		               	}
+					}
+				});
+			}
+		}
+	</script>
+</head>
+<body>
+	<form action="<?php echo Mage::getUrl('process/adminhtml_processupload/processEntry/',[]); ?>" id="process_form" type="POST">
+		<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>">
+	</form>
+	<h1>Entry Processing .......</h1>
+	<div id="message"></div>
+
+	<script type="text/javascript">
+		admin.execute();
+	</script>
+</body>
+</html>

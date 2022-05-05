@@ -7,8 +7,7 @@ class Nv_Process_Block_Adminhtml_Process_Group_Edit_Tab_Form extends Mage_Adminh
       $this->setForm($form);
       $fieldset = $form->addFieldset('abc', array('legend'=>Mage::helper('process')->__('information')));
 
-      $id = $this->getRequest()->getParam('id');
-      $model = Mage::getModel('process/process_group')->load($id);
+      $model = Mage::registry('process_data');;
       
       $fieldset->addField('name', 'text', array(
           'label'     => Mage::helper('process')->__('Name'),          

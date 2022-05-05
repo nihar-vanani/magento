@@ -1,0 +1,544 @@
+2022-05-05T03:19:37+00:00 DEBUG (7): Nv_Process_Model_Category Object
+(
+    [headers:protected] => Array
+        (
+        )
+
+    [filedData:protected] => Array
+        (
+        )
+
+    [processColumns:protected] => Array
+        (
+        )
+
+    [invalidDatas:protected] => Array
+        (
+        )
+
+    [requiredColumns:protected] => Array
+        (
+        )
+
+    [currentRow:protected] => Array
+        (
+        )
+
+    [currentRowTemp:protected] => Array
+        (
+        )
+
+    [process:protected] => Nv_Process_Model_Process Object
+        (
+            [headers:protected] => Array
+                (
+                )
+
+            [filedData:protected] => Array
+                (
+                )
+
+            [processColumns:protected] => Array
+                (
+                )
+
+            [invalidDatas:protected] => Array
+                (
+                )
+
+            [requiredColumns:protected] => Array
+                (
+                )
+
+            [currentRow:protected] => Array
+                (
+                )
+
+            [currentRowTemp:protected] => Array
+                (
+                )
+
+            [process:protected] => 
+            [_eventPrefix:protected] => core_abstract
+            [_eventObject:protected] => object
+            [_resourceName:protected] => process/process
+            [_resource:protected] => 
+            [_resourceCollectionName:protected] => process/process_collection
+            [_cacheTag:protected] => 
+            [_dataSaveAllowed:protected] => 1
+            [_isObjectNew:protected] => 
+            [_data:protected] => Array
+                (
+                    [process_id] => 2
+                    [group_id] => 1
+                    [type_id] => 1
+                    [name] => process
+                    [request_model] => process/category
+                    [file_name] => p.csv
+                    [per_request_count] => 1
+                    [request_interval] => 1
+                    [created_date] => 2022-04-29 09:52:30
+                    [updated_date] => 2022-05-04 06:14:36
+                )
+
+            [_hasDataChanges:protected] => 
+            [_origData:protected] => Array
+                (
+                    [process_id] => 2
+                    [group_id] => 1
+                    [type_id] => 1
+                    [name] => process
+                    [request_model] => process/category
+                    [file_name] => p.csv
+                    [per_request_count] => 1
+                    [request_interval] => 1
+                    [created_date] => 2022-04-29 09:52:30
+                    [updated_date] => 2022-05-04 06:14:36
+                )
+
+            [_idFieldName:protected] => process_id
+            [_isDeleted:protected] => 
+            [_oldFieldsMap:protected] => Array
+                (
+                )
+
+            [_syncFieldsMap:protected] => Array
+                (
+                )
+
+        )
+
+    [_eventPrefix:protected] => core_abstract
+    [_eventObject:protected] => object
+    [_resourceName:protected] => category/category
+    [_resource:protected] => 
+    [_resourceCollectionName:protected] => category/category_collection
+    [_cacheTag:protected] => 
+    [_dataSaveAllowed:protected] => 1
+    [_isObjectNew:protected] => 
+    [_data:protected] => Array
+        (
+        )
+
+    [_hasDataChanges:protected] => 
+    [_origData:protected] => 
+    [_idFieldName:protected] => 
+    [_isDeleted:protected] => 
+    [_oldFieldsMap:protected] => Array
+        (
+        )
+
+    [_syncFieldsMap:protected] => Array
+        (
+        )
+
+)
+
+2022-05-05T03:19:39+00:00 DEBUG (7): Nv_Process_Model_Category Object
+(
+    [headers:protected] => Array
+        (
+        )
+
+    [filedData:protected] => Array
+        (
+        )
+
+    [processColumns:protected] => Array
+        (
+        )
+
+    [invalidDatas:protected] => Array
+        (
+        )
+
+    [requiredColumns:protected] => Array
+        (
+        )
+
+    [currentRow:protected] => Array
+        (
+        )
+
+    [currentRowTemp:protected] => Array
+        (
+        )
+
+    [process:protected] => Nv_Process_Model_Process Object
+        (
+            [headers:protected] => Array
+                (
+                )
+
+            [filedData:protected] => Array
+                (
+                )
+
+            [processColumns:protected] => Array
+                (
+                )
+
+            [invalidDatas:protected] => Array
+                (
+                )
+
+            [requiredColumns:protected] => Array
+                (
+                )
+
+            [currentRow:protected] => Array
+                (
+                )
+
+            [currentRowTemp:protected] => Array
+                (
+                )
+
+            [process:protected] => 
+            [_eventPrefix:protected] => core_abstract
+            [_eventObject:protected] => object
+            [_resourceName:protected] => process/process
+            [_resource:protected] => 
+            [_resourceCollectionName:protected] => process/process_collection
+            [_cacheTag:protected] => 
+            [_dataSaveAllowed:protected] => 1
+            [_isObjectNew:protected] => 
+            [_data:protected] => Array
+                (
+                    [process_id] => 2
+                    [group_id] => 1
+                    [type_id] => 1
+                    [name] => process
+                    [request_model] => process/category
+                    [file_name] => p.csv
+                    [per_request_count] => 1
+                    [request_interval] => 1
+                    [created_date] => 2022-04-29 09:52:30
+                    [updated_date] => 2022-05-04 06:14:36
+                )
+
+            [_hasDataChanges:protected] => 
+            [_origData:protected] => Array
+                (
+                    [process_id] => 2
+                    [group_id] => 1
+                    [type_id] => 1
+                    [name] => process
+                    [request_model] => process/category
+                    [file_name] => p.csv
+                    [per_request_count] => 1
+                    [request_interval] => 1
+                    [created_date] => 2022-04-29 09:52:30
+                    [updated_date] => 2022-05-04 06:14:36
+                )
+
+            [_idFieldName:protected] => process_id
+            [_isDeleted:protected] => 
+            [_oldFieldsMap:protected] => Array
+                (
+                )
+
+            [_syncFieldsMap:protected] => Array
+                (
+                )
+
+        )
+
+    [_eventPrefix:protected] => core_abstract
+    [_eventObject:protected] => object
+    [_resourceName:protected] => category/category
+    [_resource:protected] => 
+    [_resourceCollectionName:protected] => category/category_collection
+    [_cacheTag:protected] => 
+    [_dataSaveAllowed:protected] => 1
+    [_isObjectNew:protected] => 
+    [_data:protected] => Array
+        (
+        )
+
+    [_hasDataChanges:protected] => 
+    [_origData:protected] => 
+    [_idFieldName:protected] => 
+    [_isDeleted:protected] => 
+    [_oldFieldsMap:protected] => Array
+        (
+        )
+
+    [_syncFieldsMap:protected] => Array
+        (
+        )
+
+)
+
+2022-05-05T03:19:42+00:00 DEBUG (7): Nv_Process_Model_Category Object
+(
+    [headers:protected] => Array
+        (
+        )
+
+    [filedData:protected] => Array
+        (
+        )
+
+    [processColumns:protected] => Array
+        (
+        )
+
+    [invalidDatas:protected] => Array
+        (
+        )
+
+    [requiredColumns:protected] => Array
+        (
+        )
+
+    [currentRow:protected] => Array
+        (
+        )
+
+    [currentRowTemp:protected] => Array
+        (
+        )
+
+    [process:protected] => Nv_Process_Model_Process Object
+        (
+            [headers:protected] => Array
+                (
+                )
+
+            [filedData:protected] => Array
+                (
+                )
+
+            [processColumns:protected] => Array
+                (
+                )
+
+            [invalidDatas:protected] => Array
+                (
+                )
+
+            [requiredColumns:protected] => Array
+                (
+                )
+
+            [currentRow:protected] => Array
+                (
+                )
+
+            [currentRowTemp:protected] => Array
+                (
+                )
+
+            [process:protected] => 
+            [_eventPrefix:protected] => core_abstract
+            [_eventObject:protected] => object
+            [_resourceName:protected] => process/process
+            [_resource:protected] => 
+            [_resourceCollectionName:protected] => process/process_collection
+            [_cacheTag:protected] => 
+            [_dataSaveAllowed:protected] => 1
+            [_isObjectNew:protected] => 
+            [_data:protected] => Array
+                (
+                    [process_id] => 2
+                    [group_id] => 1
+                    [type_id] => 1
+                    [name] => process
+                    [request_model] => process/category
+                    [file_name] => p.csv
+                    [per_request_count] => 1
+                    [request_interval] => 1
+                    [created_date] => 2022-04-29 09:52:30
+                    [updated_date] => 2022-05-04 06:14:36
+                )
+
+            [_hasDataChanges:protected] => 
+            [_origData:protected] => Array
+                (
+                    [process_id] => 2
+                    [group_id] => 1
+                    [type_id] => 1
+                    [name] => process
+                    [request_model] => process/category
+                    [file_name] => p.csv
+                    [per_request_count] => 1
+                    [request_interval] => 1
+                    [created_date] => 2022-04-29 09:52:30
+                    [updated_date] => 2022-05-04 06:14:36
+                )
+
+            [_idFieldName:protected] => process_id
+            [_isDeleted:protected] => 
+            [_oldFieldsMap:protected] => Array
+                (
+                )
+
+            [_syncFieldsMap:protected] => Array
+                (
+                )
+
+        )
+
+    [_eventPrefix:protected] => core_abstract
+    [_eventObject:protected] => object
+    [_resourceName:protected] => category/category
+    [_resource:protected] => 
+    [_resourceCollectionName:protected] => category/category_collection
+    [_cacheTag:protected] => 
+    [_dataSaveAllowed:protected] => 1
+    [_isObjectNew:protected] => 
+    [_data:protected] => Array
+        (
+        )
+
+    [_hasDataChanges:protected] => 
+    [_origData:protected] => 
+    [_idFieldName:protected] => 
+    [_isDeleted:protected] => 
+    [_oldFieldsMap:protected] => Array
+        (
+        )
+
+    [_syncFieldsMap:protected] => Array
+        (
+        )
+
+)
+
+2022-05-05T03:19:44+00:00 DEBUG (7): Nv_Process_Model_Category Object
+(
+    [headers:protected] => Array
+        (
+        )
+
+    [filedData:protected] => Array
+        (
+        )
+
+    [processColumns:protected] => Array
+        (
+        )
+
+    [invalidDatas:protected] => Array
+        (
+        )
+
+    [requiredColumns:protected] => Array
+        (
+        )
+
+    [currentRow:protected] => Array
+        (
+        )
+
+    [currentRowTemp:protected] => Array
+        (
+        )
+
+    [process:protected] => Nv_Process_Model_Process Object
+        (
+            [headers:protected] => Array
+                (
+                )
+
+            [filedData:protected] => Array
+                (
+                )
+
+            [processColumns:protected] => Array
+                (
+                )
+
+            [invalidDatas:protected] => Array
+                (
+                )
+
+            [requiredColumns:protected] => Array
+                (
+                )
+
+            [currentRow:protected] => Array
+                (
+                )
+
+            [currentRowTemp:protected] => Array
+                (
+                )
+
+            [process:protected] => 
+            [_eventPrefix:protected] => core_abstract
+            [_eventObject:protected] => object
+            [_resourceName:protected] => process/process
+            [_resource:protected] => 
+            [_resourceCollectionName:protected] => process/process_collection
+            [_cacheTag:protected] => 
+            [_dataSaveAllowed:protected] => 1
+            [_isObjectNew:protected] => 
+            [_data:protected] => Array
+                (
+                    [process_id] => 2
+                    [group_id] => 1
+                    [type_id] => 1
+                    [name] => process
+                    [request_model] => process/category
+                    [file_name] => p.csv
+                    [per_request_count] => 1
+                    [request_interval] => 1
+                    [created_date] => 2022-04-29 09:52:30
+                    [updated_date] => 2022-05-04 06:14:36
+                )
+
+            [_hasDataChanges:protected] => 
+            [_origData:protected] => Array
+                (
+                    [process_id] => 2
+                    [group_id] => 1
+                    [type_id] => 1
+                    [name] => process
+                    [request_model] => process/category
+                    [file_name] => p.csv
+                    [per_request_count] => 1
+                    [request_interval] => 1
+                    [created_date] => 2022-04-29 09:52:30
+                    [updated_date] => 2022-05-04 06:14:36
+                )
+
+            [_idFieldName:protected] => process_id
+            [_isDeleted:protected] => 
+            [_oldFieldsMap:protected] => Array
+                (
+                )
+
+            [_syncFieldsMap:protected] => Array
+                (
+                )
+
+        )
+
+    [_eventPrefix:protected] => core_abstract
+    [_eventObject:protected] => object
+    [_resourceName:protected] => category/category
+    [_resource:protected] => 
+    [_resourceCollectionName:protected] => category/category_collection
+    [_cacheTag:protected] => 
+    [_dataSaveAllowed:protected] => 1
+    [_isObjectNew:protected] => 
+    [_data:protected] => Array
+        (
+        )
+
+    [_hasDataChanges:protected] => 
+    [_origData:protected] => 
+    [_idFieldName:protected] => 
+    [_isDeleted:protected] => 
+    [_oldFieldsMap:protected] => Array
+        (
+        )
+
+    [_syncFieldsMap:protected] => Array
+        (
+        )
+
+)
+

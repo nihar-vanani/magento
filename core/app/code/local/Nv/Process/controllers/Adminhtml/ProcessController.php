@@ -13,6 +13,13 @@ class Nv_Process_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
 		$this->renderLayout();
 	}
 
+	public function uploadAction()
+	{
+		$this->_initAction();
+		$this->_addContent($this->getLayout()->createBlock('process/adminhtml_process_upload'));
+		$this->renderLayout();
+	}
+
 	public function newAction()
 	{
 		$this->_forward('edit');
@@ -73,4 +80,32 @@ class Nv_Process_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
 		}
 		$this->_redirect('*/*/');
 	}
+
+	public function massDeleteAction() 
+    {
+        $process_ids = $this->getRequest()->getParam('process');
+        if(!is_array($process_ids))
+        {
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select items.'));
+        } 
+        else 
+        {
+            try
+            {
+                foreach ($process_ids as $process_id)
+                {
+                    $process = Mage::getModel('process/process')->load($process_id);
+                    $process->delete();
+                }
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::helper('adminhtml')->__('Total of %d record(s) were successfully deleted.', count($process_ids)));
+            } 
+            catch (Exception $e)
+            {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
+        }
+        $this->_redirect('*/*/');
+    }
+
 }
