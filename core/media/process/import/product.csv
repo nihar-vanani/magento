@@ -1,0 +1,6 @@
+index,name,sku,price,quantity,status
+1,p1,a.com,100,1,Yes
+2,p2,b.com,200,2,Yes
+3,p3,c.com,300,3,Yes
+4,p4,d.com,400,4,Yes
+5,p5,e.com,500,5,Yes
