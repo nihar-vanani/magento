@@ -112,7 +112,7 @@ class Nv_Process_Adminhtml_ProcessUploadController extends Mage_Adminhtml_Contro
 
         if (!$entryCount) {
             Mage::getSingleton('core/session')->unsetProcessEntryVariables();
-            throw new Exception("No data available to process.", 1);
+            throw new Exception("All records processed, No record available to process.", 1);
         }
 
         $sessionVariables['totalCount'] = $entryCount;
@@ -137,7 +137,7 @@ class Nv_Process_Adminhtml_ProcessUploadController extends Mage_Adminhtml_Contro
             }
             $requestModel = Mage::getModel($process->getRequestModel());
             $requestModel->setProcess($process)->execute();
-            sleep(2);
+            sleep(1);
             $reload = false;
             if ($sessionVariables['currentRequest'] == $sessionVariables['totalRequest']){
                 $reload = true;

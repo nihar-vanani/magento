@@ -5,7 +5,7 @@ class Nv_Process_Block_Adminhtml_Process extends Mage_Adminhtml_Block_Widget_Gri
 	{
 		$this->_controller = 'adminhtml_process';
 		$this->_blockGroup = 'process';
-		$this->_headerText = Mage::helper('process')->__('Manage Process Group');
+		$this->_headerText = Mage::helper('process')->__('Manage Process');
 		$this->_addButtonLabel = Mage::helper('process')->__('Add New Process');
 		parent::__construct();
 	}

@@ -1,6 +1,8 @@
 <?php
 class Nv_Process_Model_Category extends Nv_Process_Model_Process_Abstract
 {
+	protected $existingCategories = [];
+
 	protected function _construct()
     {
         $this->_init('category/category');
@@ -26,6 +28,9 @@ class Nv_Process_Model_Category extends Nv_Process_Model_Process_Abstract
 
 	public function validateRow($row)
 	{
+		if (!$this->existingCategories) {
+			$this->getCategories();
+		}
 		$row = $this->validateValue($row);
 		return $row;
 	}
@@ -36,13 +41,18 @@ class Nv_Process_Model_Category extends Nv_Process_Model_Process_Abstract
 		$this->validateParent($row['parent_id']);
 		$row['name'] = $this->getName($row);
 		$this->validateName($row['name']);
+		if (!array_key_exists($row['path'], $this->existingCategories)) {
+			$this->existingCategories[$row['path']] = 0;
+		}
+
+
 
 		if ($row['parent_id'] == "Root") {
 			$row['parent_id'] = 0;
 		}
 		else{
-			if(array_key_exists($row['parent_id'], $this->getCategories())){
-				$row['parent_id'] = $this->getCategories()[$row['parent_id']];
+			if(array_key_exists($row['parent_id'], $this->existingCategories)){
+				$row['parent_id'] = $this->existingCategories[$row['parent_id']];
 			}
 		}
 
@@ -75,7 +85,7 @@ class Nv_Process_Model_Category extends Nv_Process_Model_Process_Abstract
                 }
             }
         }
-        return $optionArray;
+        $this->existingCategories = $optionArray;
     }
 
     public function getName($row)
@@ -99,14 +109,14 @@ class Nv_Process_Model_Category extends Nv_Process_Model_Process_Abstract
 
     public function validateName($name)
     {
-    	if (array_key_exists($name, $this->getCategories())) {
+    	if (array_key_exists($name, $this->existingCategories)) {
     		throw new Exception("Duplicate Name", 1);
     	}
     }
 
     public function validateParent($name)
     {
-    	if (!array_key_exists($name, $this->getCategories())) {
+    	if (!array_key_exists($name, $this->existingCategories)) {
     		throw new Exception("No Parent", 1);
     	}
     }
@@ -125,12 +135,35 @@ class Nv_Process_Model_Category extends Nv_Process_Model_Process_Abstract
     public function updatePath($entry)
     {
     	$category = Mage::getModel('category/category');
-    	$select = $category->getCollection()
-                    ->getSelect()
-                    ->where('category_id = '.$entry['parent_id']);
-    	$path = $category->getResource()->getReadConnection()->fetchRow($select)['path'];
-    	$path = $path."/".$entry['category_id'];
-    	$query = "UPDATE `category` SET `path` = '{$path}' WHERE `category_id` = {$entry['category_id']}";
-    	$category->getResource()->getReadConnection()->fetchAll($query);
+    	if ($entry['parent_id'] == 0)
+    	{
+	    	if ($entry['name'] == $entry['path']) {
+	    		$parentId = 0;
+	    		$path = $entry['category_id'];
+				Mage::log($row, null, "g.log", true);
+	    	}
+	    	else{
+	    		$parent = $this->getParent($entry);
+	    		$this->getCategories();
+	    		$id = $this->existingCategories[$parent];
+	    		$select = $category->getCollection()
+		                ->getSelect()
+		                ->where('category_id = '.$id);
+		        $row = $category->getResource()->getReadConnection()->fetchRow($select);
+		        $path = $row['path']."/".$entry['category_id'];
+		        $parentId = $row['category_id'];
+	    	}
+    	}
+    	else{
+			$select = $category->getCollection()
+		                ->getSelect()
+		                ->where('category_id = '.$entry['parent_id']);
+			$row = $category->getResource()->getReadConnection()->fetchRow($select);
+			$path = $row['path']."/".$entry['category_id'];
+			$parentId = $row['category_id'];
+    	}
+		$query = "UPDATE `category` SET `path` = '{$path}', `parent_id` = '{$parentId}' WHERE `category_id` = '{$entry['category_id']}'";
+        	$category->getResource()->getReadConnection()->fetchAll($query);
+        	return true;
     }
 }

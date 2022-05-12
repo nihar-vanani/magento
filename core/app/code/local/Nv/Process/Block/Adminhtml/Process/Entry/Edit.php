@@ -5,7 +5,7 @@ class Nv_Process_Block_Adminhtml_Process_Entry_Edit extends Mage_Adminhtml_Block
 	{
 		$this->_controller = 'adminhtml_process_entry';
 		$this->_blockGroup = 'process';
-		$this->_headerText = 'Edit Process';
+		$this->_headerText = 'Edit Process Entry';
 		parent::__construct();
 	}
 }

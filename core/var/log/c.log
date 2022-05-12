@@ -1,0 +1,66 @@
+2022-05-12T07:21:56+00:00 DEBUG (7): Array
+(
+    [name] => p1
+    [category_id] => 1
+    [sku] => a.com
+    [price] => 100
+    [quantity] => 1
+    [status] => 1
+    [created_at] => 2022-05-12_07-21-56
+)
+
+2022-05-12T07:21:56+00:00 DEBUG (7): Array
+(
+    [name] => p2
+    [category_id] => 366
+    [sku] => b.com
+    [price] => 200
+    [quantity] => 2
+    [status] => 1
+    [created_at] => 2022-05-12_07-21-56
+)
+
+2022-05-12T07:21:58+00:00 DEBUG (7): Array
+(
+    [name] => p3
+    [category_id] => 372
+    [sku] => c.com
+    [price] => 300
+    [quantity] => 3
+    [status] => 1
+    [created_at] => 2022-05-12_07-21-58
+)
+
+2022-05-12T07:25:05+00:00 DEBUG (7): Array
+(
+    [name] => p1
+    [category_id] => 1
+    [sku] => a.com
+    [price] => 100
+    [quantity] => 1
+    [status] => 1
+    [createdAt] => 2022-05-12_07-25-05
+)
+
+2022-05-12T07:25:05+00:00 DEBUG (7): Array
+(
+    [name] => p2
+    [category_id] => 366
+    [sku] => b.com
+    [price] => 200
+    [quantity] => 2
+    [status] => 1
+    [createdAt] => 2022-05-12_07-25-05
+)
+
+2022-05-12T07:25:06+00:00 DEBUG (7): Array
+(
+    [name] => p3
+    [category_id] => 372
+    [sku] => c.com
+    [price] => 300
+    [quantity] => 3
+    [status] => 1
+    [createdAt] => 2022-05-12_07-25-06
+)
+
