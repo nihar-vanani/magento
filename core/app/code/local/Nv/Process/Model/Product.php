@@ -88,10 +88,10 @@ class Nv_Process_Model_Product extends Nv_Process_Model_Process_Abstract
 	public function importEntries($entries)
     {
         $product = Mage::getModel('product/product');
-        foreach ($entries as $key => $value) {
-            $date = date('Y-m-d H:i:s');
-            $product->setData(json_decode($value['data'], true));
-            $product->setcreatedDate($date);
+        foreach ($entries as $key => $row) {
+            $row = json_decode($row['data'], true);
+            $row['created_date'] = date('Y-m-d_H-i-s');
+            $product->setData($row);
             $product->save();
         }
         return true;

@@ -1,0 +1,3 @@
+"index","entity_type_id","attribute_code","backend_type","frontend_label","message"
+"4","catalog_product","p2","varchar","p4","Duplicate Code"
+"5","catalog_product","my_attr","varchar","p5","Duplicate Code"

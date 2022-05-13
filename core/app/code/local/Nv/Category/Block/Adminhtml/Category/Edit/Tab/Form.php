@@ -8,8 +8,7 @@ class Nv_Category_Block_Adminhtml_Category_Edit_Tab_Form extends Mage_Adminhtml_
       $this->setForm($form);
       $fieldset = $form->addFieldset('abc', array('legend'=>Mage::helper('category')->__('information')));
 
-      $id = $this->getRequest()->getParam('id');
-      $model = Mage::getModel('category/category')->load($id);
+       $model = Mage::registry('category_data');
       $fieldset->addField('parent_id', 'select', array(
           'label'     => Mage::helper('category')->__('Parent Id'),          
           'name'      => 'parent_id',
@@ -23,7 +22,7 @@ class Nv_Category_Block_Adminhtml_Category_Edit_Tab_Form extends Mage_Adminhtml_
       $fieldset->addField('path', 'text', array(
           'label'     => Mage::helper('category')->__('Path'),          
           'name'      => 'path',
-          'value' => $model->getData('path'),
+          'value' => $model->getPath('path'),
       ));
       $fieldset->addField('status', 'select', array(
           'label'     => Mage::helper('category')->__('Status'),          

@@ -5,7 +5,7 @@ class Nv_Product_Block_Adminhtml_Product_Edit extends Mage_Adminhtml_Block_Widge
 	public function __construct()
     {
 
-        $this->_objectId = 'productId';
+        $this->_objectId = 'product_id';
         $this->_blockGroup = 'product';
         $this->_controller = 'adminhtml_product';
 
@@ -14,5 +14,4 @@ class Nv_Product_Block_Adminhtml_Product_Edit extends Mage_Adminhtml_Block_Widge
         $this->_updateButton('delete', 'label', Mage::helper('product')->__('Delete'));
 
     }
-
 }

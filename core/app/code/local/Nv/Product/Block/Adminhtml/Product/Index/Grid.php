@@ -5,26 +5,35 @@ class Nv_Product_Block_Adminhtml_Product_Index_Grid extends Mage_Adminhtml_Block
 	public function __construct()
 	{
 		parent::__construct();
-		$this->setId('productGrid');
-		$this->setDefaultSort('productId');
-		$this->setUseAjax(true);
-		$this->setSaveParametersInSession(true);
 	}
 
 	protected function _prepareCollection()
 	{
 	  $collection = Mage::getModel('product/product')->getCollection();
+	  foreach ($collection->getItems() as $data) 
+	    {
+	    		$category = Mage::getModel('category/category');
+	    		$path = $category->load($data->category_id)->path;
+	    		$data->category_id = $category->getPath($path);
+	    }
 	  $this->setCollection($collection);
 	  return parent::_prepareCollection();
 	}
 
 	protected function _prepareColumns()
 	{
-		$this->addColumn('productId', array(
+		$this->addColumn('product_id', array(
 		  'header'    => Mage::helper('product')->__('ID'),
 		  'align'     =>'right',
 		  'width'     => '50px',
-		  'index'     => 'productId',
+		  'index'     => 'product_id',
+		));   
+
+		$this->addColumn('category_id', array(
+		  'header'    => Mage::helper('product')->__('Category'),
+		  'align'     =>'right',
+		  'width'     => '50px',
+		  'index'     => 'category_id',
 		));   
 
 		$this->addColumn('name', array(
@@ -67,44 +76,26 @@ class Nv_Product_Block_Adminhtml_Product_Index_Grid extends Mage_Adminhtml_Block
                             ),
       ));    
 
-		$this->addColumn('createdAt', array(
-		  'header'    => Mage::helper('product')->__('CreatedAt'),
+		$this->addColumn('created_date', array(
+		  'header'    => Mage::helper('product')->__('Created Date'),
 		  'align'     =>'right',
 		  'width'     => '50px',
-		  'index'     => 'createdAt',
+		  'index'     => 'created_date',
 		));
 
-		$this->addColumn('updatedAt', array(
-		  'header'    => Mage::helper('product')->__('UpdatedAt'),
+		$this->addColumn('updated_date', array(
+		  'header'    => Mage::helper('product')->__('Updated Date'),
 		  'align'     =>'right',
 		  'width'     => '50px',
-		  'index'     => 'updatedAt',
+		  'index'     => 'updated_date',
 		));
 
-		$this->addColumn('action1',
-		    array(
-		        'header'    =>  Mage::helper('product')->__('Action'),
-		        'width'     => '100',
-		        'type'      => 'action',
-		        'getter'    => 'getId',
-		        'actions'   => array(
-		            array(
-		                'caption'   => Mage::helper('product')->__('Edit'),
-		                'url'       => array('base'=> '*/*/edit'),
-		                'field'     => 'id'
-		            )
-		        ),
-		        'filter'    => false,
-		        'sortable'  => false,
-		        'index'     => 'stores',
-		        'is_system' => true,
-		));
 		return parent::_prepareColumns();
 	}   
 
     protected function _prepareMassaction()
     {
-        $this->setMassactionIdField('productId');
+        $this->setMassactionIdField('product_id');
         $this->getMassactionBlock()->setFormFieldName('product');
 
         $this->getMassactionBlock()->addItem('delete', array(
