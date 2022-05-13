@@ -3,20 +3,22 @@
 class Nv_Product_Adminhtml_ProductController extends Mage_Adminhtml_Controller_Action
 {
      
-    public function indexAction()
+    public function _initAction()
     {
-        $this->_title($this->__('Product'))->_title($this->__('Manage Product'));
-        $this->loadLayout();
-        $this->_setActiveMenu('product/product');
-        $this->renderLayout();
-
+        $this->loadLayout()->_setActiveMenu('product/product');
+        return $this;
     }
 
-    public function editAction() 
+    public function indexAction()
+    {
+        $this->_initAction();
+        $this->renderLayout();
+    }
+
+    public function editAction()
     {
         $this->loadLayout();
         $model = Mage::getModel('product/product');
-
         if ($this->getRequest()->getParam('id')) 
         {
             $id = $this->getRequest()->getParam('id');
@@ -30,8 +32,7 @@ class Nv_Product_Adminhtml_ProductController extends Mage_Adminhtml_Controller_A
         } 
         Mage::register('product_data', $model);  
 
-        $this->_addContent($this->getLayout()->createBlock('product/adminhtml_product_edit')) //blocks
-            ->_addLeft($this->getLayout()->createBlock('product/adminhtml_product_edit_tabs'));
+        $this->_addLeft($this->getLayout()->createBlock('product/adminhtml_product_edit_tabs'));
         $this->renderLayout();
     }
 
@@ -69,27 +70,22 @@ class Nv_Product_Adminhtml_ProductController extends Mage_Adminhtml_Controller_A
     {   
         try
         {
-            if (!$this->getRequest()->getPost())
-            {   
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Invalid request.'));   
-            }
-                
-            $id= ($this->getRequest()->getParam('id'));
-            $model = Mage::getModel('product/product')->load($id);
+            if ( $this->getRequest()->getPost() )
+            {
+                $id = $this->getRequest()->getParam('id');
+                $postData = $this->getRequest()->getPost();
+                $model = Mage::getModel('product/product');
+                $date = date('Y-m-d H:i:s');
 
-            $model->setData('id',$this->getRequest()->getPost('id'));
-
-            $model->setData('name',$this->getRequest()->getPost('name'));
-            $model->setData('sku',$this->getRequest()->getPost('sku'));
-            $model->setData('price',$this->getRequest()->getPost('price'));
-            $model->setData('quantity',$this->getRequest()->getPost('quantity'));
-            $model->setData('status',$this->getRequest()->getPost('status'));
-            if(!$id){
-                $model->setData('createdAt', Mage::getModel('core/date')->date('Y-m-d H:i:s'));
+                if ($id) {
+                    $model->setData($postData)->setId($this->getRequest()->getParam('id'))->setupdatedDate($date);
+                }else{
+                    $model->setData($postData);
+                    $model->setcreatedDate($date);
+                }
+                $model->save();
             }
-            $model->setData('updatedAt', Mage::getModel('core/date')->date('Y-m-d H:i:s'));
-            
-            $model->save();
+        $this->_redirect('*/*/');
             Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('product')->__('product saved successfully.'));
             Mage::dispatchEvent('product_save_etc', array('product' => $model));
         }

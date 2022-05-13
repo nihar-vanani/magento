@@ -1,0 +1,6 @@
+index,entity_type_id,attribute_code,backend_type,frontend_label
+1,catalog_product,p1,int,p1
+2,catalog_product,p2,int,p2
+3,catalog_product,p3,int,p3
+4,catalog_product,p2,varchar,p4
+5,catalog_product,my_attr,varchar,p5

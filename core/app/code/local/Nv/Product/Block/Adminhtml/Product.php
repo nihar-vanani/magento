@@ -5,9 +5,8 @@ class Nv_Product_Block_Adminhtml_Product extends Mage_Adminhtml_Block_Widget_Gri
   {
     $this->_controller = 'adminhtml_product';
     $this->_blockGroup = 'product';
-    $this->_headerText = Mage::helper('product')->__('Manager');
-    $this->_addButtonLabel = Mage::helper('product')->__('Add Item');
+    $this->_headerText = Mage::helper('product')->__('Manage Product');
+    $this->_addButtonLabel = Mage::helper('product')->__('Add New Product');
     parent::__construct();
-
   }
 }

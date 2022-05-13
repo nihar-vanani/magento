@@ -108,4 +108,73 @@ class Nv_Process_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
         $this->_redirect('*/*/');
     }
 
+    public function massDeleteEntriesAction() 
+    {
+        $process_ids = $this->getRequest()->getParam('process');
+        if(!is_array($process_ids))
+        {
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select items.'));
+        } 
+        else 
+        {
+            try
+            {
+                foreach ($process_ids as $process_id)
+                {
+                    $entry = Mage::getModel('process/process_entry');
+        			$select = $entry->getCollection()
+                        ->getSelect()
+                        ->where('process_id = '.$process_id);
+        			$entries = $entry->getResource()->getReadConnection()->fetchAll($select);
+        			foreach ($entries as $key => $row) {
+        				$entry->setData($row);
+        				$entry->delete();
+        			}
+                }
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::helper('adminhtml')->__('Total of %d record(s) were successfully deleted.', count($process_ids)));
+            } 
+            catch (Exception $e)
+            {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
+        }
+        $this->_redirect('*/*/');
+    }
+
+    public function massDeleteColumnsAction() 
+    {
+    	echo "<pre>";
+        $process_ids = $this->getRequest()->getParam('process');
+        if(!is_array($process_ids))
+        {
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select items.'));
+        } 
+        else 
+        {
+            try
+            {
+                foreach ($process_ids as $process_id)
+                {
+                    $column = Mage::getModel('process/process_column');
+        			$select = $column->getCollection()
+                        ->getSelect()
+                        ->where('process_id = '.$process_id);
+        			$columns = $column->getResource()->getReadConnection()->fetchAll($select);
+        			foreach ($columns as $key => $row) {
+                    	$column->setData($row);
+        				$column->delete();
+        			}
+                }
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::helper('adminhtml')->__('Total of %d record(s) were successfully deleted.', count($process_ids)));
+            } 
+            catch (Exception $e)
+            {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
+        }
+        $this->_redirect('*/*/');
+    }
+
 }

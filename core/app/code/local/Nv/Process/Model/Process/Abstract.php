@@ -184,6 +184,7 @@ class Nv_Process_Model_Process_Abstract extends Mage_Core_Model_Abstract
             }
         }
         $this->setFileDatas($data);
+        
     }
 
 	protected function getRequiredColumns()
@@ -231,15 +232,15 @@ class Nv_Process_Model_Process_Abstract extends Mage_Core_Model_Abstract
         if (!$this->getFileDatas()) {
             throw new Exception("No record available.", 1);
         }
-
         foreach ($this->getFileDatas() as $key => &$row) {
             try {
-            	$this->_validateRow($row);
+                $this->_validateRow($row);
                 $row = $this->validateRow($row);
                 $this->_prepareRow($row);
             }
             catch (Exception $e) {
-            	$this->addInvalidDatas($this->currentRow);
+                $this->currentRow['message'] = $e->getMessage();
+                $this->addInvalidDatas($this->currentRow);
                 $this->removeFileData($key);
             }
         }
@@ -257,7 +258,7 @@ class Nv_Process_Model_Process_Abstract extends Mage_Core_Model_Abstract
 
     public function validateRow($row)
     {
-    	return $row;
+        return $row;
     }
 
     protected function _validateRow($row)
@@ -299,10 +300,10 @@ class Nv_Process_Model_Process_Abstract extends Mage_Core_Model_Abstract
     			return $value;
     		}
     		elseif($castingType == 2) {
-    			if (!$value == (string)$value) {
+    			if ($value == is_numeric($value)) {
     				throw new Exception("Invalid", 1);
     			}
-    			return $value;
+                return $value;
     		}
     	}
     	else{
@@ -316,7 +317,7 @@ class Nv_Process_Model_Process_Abstract extends Mage_Core_Model_Abstract
     			return $value;
     		}
     		elseif($castingType == 2) {
-    			if (!$value == (string)$value) {
+    			if ($value == is_numeric($value)) {
     				return null;
     			}
     			return $value;
@@ -361,7 +362,9 @@ class Nv_Process_Model_Process_Abstract extends Mage_Core_Model_Abstract
     public function generateInvalidDataReport()
     {
     	$invalid = [];
-    	$invalid[] = $this->getHeaders();
+        $headers = $this->getHeaders();
+        array_push($headers, "message");
+    	$invalid[] = $headers;
     	$data = $this->getInvalidDatas();
 
     	foreach ($data as $key => $value) {
@@ -373,7 +376,7 @@ class Nv_Process_Model_Process_Abstract extends Mage_Core_Model_Abstract
 
     public function execute()
     {
-        $date = date("Y-m-d_H-i-s");
+        $startDate = date("Y-m-d_H-i-s");
         $entry = Mage::getModel('process/process_entry');
         $select = $entry->getCollection()
                         ->getSelect()
@@ -385,10 +388,11 @@ class Nv_Process_Model_Process_Abstract extends Mage_Core_Model_Abstract
             throw new Exception("No Entries Found.");
         }
         $entryIds = implode(',', array_column($entries, 'entry_id'));
-        $query = "UPDATE `process_entry` SET `start_time` = '{$date}' WHERE `entry_id` IN ({$entryIds})";
+        $query = "UPDATE `process_entry` SET `start_time` = '{$startDate}' WHERE `entry_id` IN ({$entryIds})";
         $entry->getResource()->getReadConnection()->fetchAll($query);
         $this->importEntries($entries);
-        $query = "UPDATE `process_entry` SET `end_time` = '{$date}' WHERE `entry_id` IN ({$entryIds})";
+        $endDate = date("Y-m-d_H-i-s");
+        $query = "UPDATE `process_entry` SET `end_time` = '{$endDate}' WHERE `entry_id` IN ({$entryIds})";
         $entry->getResource()->getReadConnection()->fetchAll($query);
     }
 
@@ -396,7 +400,7 @@ class Nv_Process_Model_Process_Abstract extends Mage_Core_Model_Abstract
     {
         foreach ($entries as $key => $row) {
             $row = json_decode($row['data'], true);
-            $row['created_date'] = date('Y-m-d_H-i-s');
+            $row['createdAt'] = date('Y-m-d_H-i-s');
             $this->setData($row);
             $this->save();
         }

@@ -1,0 +1,6 @@
+index,category_id,name,sku,price,quantity,status
+1,Bedroom,p1,a.com,100,1,Yes
+2,Bedroom/Bed,p2,b.com,200,2,Yes
+3,Livingroom,p3,c.com,300,3,Yes
+4,Kitchen,p4,d.com,400,4,Yes
+5,Bedroom/Bed/Panel Bed,p5,e.com,500,5,Yes

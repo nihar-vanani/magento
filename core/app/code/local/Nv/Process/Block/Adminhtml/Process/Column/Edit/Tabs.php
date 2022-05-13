@@ -12,7 +12,7 @@ class Nv_Process_Block_Adminhtml_Process_Column_Edit_Tabs extends Mage_Adminhtml
   protected function _beforeToHtml()
   {
       $this->addTab('form_section1', array(
-          'label'     => Mage::helper('process')->__('Process Information'),         
+          'label'     => Mage::helper('process')->__('Column Information'),         
           'content'   => $this->getLayout()->createBlock('process/adminhtml_process_column_edit_tab_form')->toHtml(),
       ));
 

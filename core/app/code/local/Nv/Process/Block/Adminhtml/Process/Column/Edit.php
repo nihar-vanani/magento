@@ -5,7 +5,7 @@ class Nv_Process_Block_Adminhtml_Process_Column_Edit extends Mage_Adminhtml_Bloc
 	{
 		$this->_controller = 'adminhtml_process_column';
 		$this->_blockGroup = 'process';
-		$this->_headerText = 'Edit Process';
+		$this->_headerText = 'Edit Process Column';
 		parent::__construct();
 	}
 }

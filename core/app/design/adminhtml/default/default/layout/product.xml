@@ -2,7 +2,7 @@
 <layout>
 	<product_adminhtml_product_index>
 		<reference name="content">
-			<block type="product/adminhtml_product_index" name="productIndex"/>
+			<block type="product/adminhtml_product_index" name="productGrid"/>
 		</reference>
 	</product_adminhtml_product_index>
 	<product_adminhtml_product_edit>

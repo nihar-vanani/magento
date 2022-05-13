@@ -122,6 +122,16 @@ class Nv_Process_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
              'url'      => $this->getUrl('*/*/massDelete'),
              'confirm'  => Mage::helper('process')->__('Are you sure?')
         ));
+        $this->getMassactionBlock()->addItem('deleteEntry', array(
+             'label'    => Mage::helper('process')->__('DeleteEntries'),
+             'url'      => $this->getUrl('*/*/massDeleteEntries'),
+             'confirm'  => Mage::helper('process')->__('Are you sure?')
+        ));
+        $this->getMassactionBlock()->addItem('deleteColumns', array(
+             'label'    => Mage::helper('process')->__('DeleteColumns'),
+             'url'      => $this->getUrl('*/*/massDeleteColumns'),
+             'confirm'  => Mage::helper('process')->__('Are you sure?')
+        ));
     }
 
 	public function getRowUrl($row)
