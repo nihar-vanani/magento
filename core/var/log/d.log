@@ -1,0 +1,172 @@
+2022-05-16T12:35:51+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_gender
+    [values] => Array
+        (
+            [1] => Male
+            [2] => Female
+        )
+
+)
+
+2022-05-16T12:35:51+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_status
+    [values] => Array
+        (
+            [1] => Active
+            [2] => Inactive
+        )
+
+)
+
+2022-05-16T12:52:31+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_gender
+    [values] => Array
+        (
+            [1] => Male
+        )
+
+)
+
+2022-05-16T12:52:31+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_gender
+    [values] => Array
+        (
+            [2] => Female
+        )
+
+)
+
+2022-05-16T12:52:32+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_status
+    [values] => Array
+        (
+            [1] => Active
+        )
+
+)
+
+2022-05-16T12:52:32+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_status
+    [values] => Array
+        (
+            [2] => Inactive
+        )
+
+)
+
+2022-05-16T13:20:27+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_gender
+    [values] => Array
+        (
+            [1] => Male
+        )
+
+)
+
+2022-05-16T13:20:27+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_gender
+    [values] => Array
+        (
+            [2] => Female
+        )
+
+)
+
+2022-05-16T13:20:28+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_status
+    [values] => Array
+        (
+            [1] => Active
+        )
+
+)
+
+2022-05-16T13:20:28+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_status
+    [values] => Array
+        (
+            [2] => Inactive
+        )
+
+)
+
+2022-05-17T08:10:24+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_gender
+    [values] => 
+)
+
+2022-05-17T08:10:24+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_gender
+    [values] => 
+)
+
+2022-05-17T08:10:25+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_status
+    [values] => 
+)
+
+2022-05-17T08:10:26+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_status
+    [values] => 
+)
+
+2022-05-17T08:10:27+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_option
+    [values] => 
+)
+
+2022-05-17T08:13:29+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_gender
+    [values] => Array
+        (
+            [1] => Male
+        )
+
+)
+
+2022-05-17T08:13:29+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_gender
+    [values] => Array
+        (
+            [2] => Female
+        )
+
+)
+
+2022-05-17T08:13:30+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_status
+    [values] => Array
+        (
+            [1] => Active
+        )
+
+)
+
+2022-05-17T08:13:30+00:00 DEBUG (7): Array
+(
+    [attribute_code] => product_status
+    [values] => Array
+        (
+            [2] => Inactive
+        )
+
+)
+

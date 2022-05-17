@@ -30,10 +30,16 @@ class Nv_Process_Adminhtml_ProcessUploadController extends Mage_Adminhtml_Contro
 
     public function uploadAction()
     {
-        $Id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('process/process');
-        if($model->load($Id)){
-            $fileName = $model->uploadFile($Id);
+        try {
+            $Id = $this->getRequest()->getParam('id');
+            $model = Mage::getModel('process/process');
+            if($model->load($Id)){
+                $fileName = $model->uploadFile($Id);
+            }
+            $this->_getSession()->addSuccess(Mage::helper('process')->__("File uploaded successfully."));
+        }
+        catch (Exception $e){
+            $this->_getSession()->addError(Mage::helper('process')->__($e->getMessage()));
         }
         $this->_redirect('process/adminhtml_process/index');
     }
@@ -61,15 +67,18 @@ class Nv_Process_Adminhtml_ProcessUploadController extends Mage_Adminhtml_Contro
         try {
             $id = $this->getRequest()->getParam('id');
             $model = Mage::getModel('process/process')->load($id);
-            $csv = $model->downloadSample();
-            $this->_prepareDownloadResponse($model->getFileName(), $csv);
+            $name = $model->getFileName();
+            $model->downloadSample();
+            $path = Mage::getBaseDir('var') . DS . 'export';
+            $file = $path . DS . $name;
+            $content = ['type' => "filename", 'value' => $file, 'rm' => 1];
+            $this->_prepareDownloadResponse($name, $content);
             $this->_getSession()->addSuccess($this->__("File Downloaded."));
-            $this->_redirect('process/adminhtml_process/index');
         }
         catch (Exception $e) {
             $this->_getSession()->addError($this->__($e->getMessage()));
-            $this->_redirect('process/adminhtml_process/index');
         }
+        $this->_redirect('process/adminhtml_process/index');
     }
 
     public function executeAction()

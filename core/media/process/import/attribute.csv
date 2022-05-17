@@ -1,6 +1,4 @@
-index,entity_type_id,attribute_code,backend_type,frontend_label
-1,catalog_product,p1,int,p1
-2,catalog_product,p2,int,p2
-3,catalog_product,p3,int,p3
-4,catalog_product,p2,varchar,p4
-5,catalog_product,my_attr,varchar,p5
+index,group,attribute_set,code,type,input,label,required,visible,user_defined
+1,General,Default,product_gender,int,select,Product Gender,TRUE,TRUE,TRUE
+2,General,Default,product_status,int,select,Product Status,TRUE,TRUE,TRUE
+3,General,Default,product_name,varchar,text,Product Name,TRUE,TRUE,TRUE

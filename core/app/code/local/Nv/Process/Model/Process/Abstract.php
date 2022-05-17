@@ -126,34 +126,20 @@ class Nv_Process_Model_Process_Abstract extends Mage_Core_Model_Abstract
         $id = $this->getId();
         $select = $columnModel->getCollection()
                 ->getSelect()
-                ->where('process_id = '. $id)
-                ->order('name ASC');
+                ->reset(Zend_Db_Select::COLUMNS)
+                ->columns(['name', 'sample_value', 'required'])
+                ->where('process_id = '. $id);
         $columns = $columnModel->getResource()->getReadConnection()->fetchAll($select);
         if (!$columns) {
             throw new Exception("Columns not found.", 1);
             
         }
-        $io = new Varien_Io_File();
         $path = Mage::getBaseDir('var') . DS . 'export';
         $file = $path . DS . $name;
-        $io->setAllowCreateFolders(true);
-        $io->open(array('path' => $path));
-        $io->streamOpen($file, 'w+');
-        $io->streamLock(true);
-        $finalColumn[] = array_column($columns, 'name');
-        $finalColumn[] = array_column($columns, 'sample_value');
-        $finalColumn[] = array_column($columns, 'required');
-        foreach ($finalColumn as $row) {
-            $io->streamWriteCsv($row);
-        }
-        $io->streamUnlock();
-        $io->streamClose();
-        $csv = [
-            'type' => 'file_name',
-            'value' => $file,
-            'rm' => '1'
-        ];
-        return $csv;
+        $finalData = [array_column($columns, 'name'), array_column($columns, 'sample_value'), array_column($columns, 'required')];
+        $csv = new Varien_File_Csv();
+        $csv->saveData($file, $finalData);
+        return true;
     }
 
     public function verify()
@@ -346,7 +332,9 @@ class Nv_Process_Model_Process_Abstract extends Mage_Core_Model_Abstract
     {
     	$entry = Mage::getModel('process/process_entry');
     	$readConnection = $entry->getResource()->getReadConnection();
-    	$readConnection->insertMultiple($entry->getResource()->getMainTable(), $this->getFileDatas());
+        if ($this->getFileDatas()) {
+        	$readConnection->insertMultiple($entry->getResource()->getMainTable(), $this->getFileDatas());
+        }
     }
 
     public function getIdentifier($row)
