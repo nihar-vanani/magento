@@ -9,7 +9,7 @@ class Nv_Process_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
 
 	public function indexAction()
 	{
-		$this->_initAction();
+        $this->_initAction();
 		$this->renderLayout();
 	}
 
@@ -27,6 +27,7 @@ class Nv_Process_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
 
 	public function editAction()
 	{
+
 		$this->loadLayout();
         $model = Mage::getModel('process/process');
         if ($this->getRequest()->getParam('id')) 

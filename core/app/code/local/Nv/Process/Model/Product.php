@@ -38,12 +38,11 @@ class Nv_Process_Model_Product extends Nv_Process_Model_Process_Abstract
 			throw new Exception("Invalid Category.");
 		}
 		$row['category_id'] = $this->existingCategories[$row['category_id']];
-
-		if (in_array($row['sku'], $this->existingSku)) {
+		if (array_key_exists($row['sku'], $this->existingSku)) {
 			throw new Exception("Duplicate Sku.");
 		}
-		$this->existingSku[] = $row['sku'];
-
+		$this->existingSku[$row['sku']] = 0;
+		
 		if ($row['status'] == "yes") {
 			$row['status'] = 1;
 		}
@@ -80,9 +79,8 @@ class Nv_Process_Model_Product extends Nv_Process_Model_Process_Abstract
 		$model = Mage::getModel('product/product');
 		$select = $model->getCollection()->getSelect()
 						->reset(Zend_Db_Select::COLUMNS)
-						->columns(['sku']);
-		$sku = $model->getResource()->getReadConnection()->fetchAll($select);
-		$this->existingSku = $sku;
+						->columns(['sku', 'product_id']);
+		$this->existingSku = $model->getResource()->getReadConnection()->fetchPairs($select);
 	}
 
 	public function importEntries($entries)

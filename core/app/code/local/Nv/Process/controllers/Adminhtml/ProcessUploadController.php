@@ -11,18 +11,14 @@ class Nv_Process_Adminhtml_ProcessUploadController extends Mage_Adminhtml_Contro
     public function uploadfileAction()
     {
         $id = $this->getRequest()->getParam('id');
-		Mage::getSingleton('cms/wysiwyg_config')->setStoreId($this->getRequest()->getParam('store'));
 
-		$process = Mage::getModel('process/process')
-			->setStoreId($this->getRequest()->getParam('store', 0))
-			->load($id);
+		$process = Mage::getModel('process/process')->load($id);
 
 		Mage::register('current_process_media', $process);
 
 		if (!$id) {
 			$this->_getSession()->addError(Mage::helper('process')->__('This process no longer exists'));
 			$this->_redirect('*/*/');
-			return;
 		}
 		$this->loadLayout();
 		$this->renderLayout();
